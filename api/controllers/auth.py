@@ -6,7 +6,7 @@ from api.utilitiez.validation import validate_new_user
 from api.models.user import (
     User,
     users,
-    check_user_exists,
+    is_valid_credentials
 )
 
 
@@ -41,12 +41,11 @@ class UserController():
         error = validate_new_user(**new_user)
         if error:
             return error
-        user_exists = check_user_exists(
-            new_user["first_name"], new_user["last_name"], new_user["email"]
-        )
+        user_exists = [user for user in users if user['first_name'] == first_name or
+              user['email'] == email or user['last_name'] == last_name]
         response = None
         if user_exists:
-            response = jsonify({"error": user_exists, "status": 409}), 409
+            response = jsonify({"error": "user already exists", "status": 409}), 409
         else:
 
             new_user_details = User(**new_user)
@@ -66,5 +65,58 @@ class UserController():
                 201,
             )
         return response
+
+    
+    def login(self):
+        if not request.data:
+            return (
+                jsonify(
+                    {"error": "Please provide valid login data", "status": 400}
+                ),
+                400,
+            )
+        # Get user credentials from user input
+        user_credentials = json.loads(request.data)
+        response = None
+        try:
+            email = user_credentials["email"]
+            user_password = user_credentials["password"]
+
+            # Comfirming whether its a known user
+            user_id = is_valid_credentials(email, user_password)
+            if user_id:
+                response = (
+                    jsonify(
+                        {
+                            "status": 200,
+                            "data": [
+                                {
+                                    "token": encode_token(str(user_id)),
+                                    "success": f"{email} logged in successfully",
+                                }
+                            ],
+                        }
+                    ),
+                    200,
+                )
+            else:
+                response = (
+                    jsonify({"error": "Wrong login credentials.", "status": 401}),
+                    401,
+                )
+
+        except KeyError:
+            response = (
+                jsonify(
+                    {
+                        "error": "Please provide the correct keys for the data",
+                        "status": 422,
+                    }
+                ),
+                422,
+            )
+        return response
+
+
 
     

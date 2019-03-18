@@ -4,8 +4,8 @@ As EPIC Andelans who work towards advancing human potential and giving back to t
 
 ## Required features
 
-- Users can sign up.Â  
-- Users can login.Â  
+- Users can sign up.
+- Users can login.
 - Users can create groups.
 - Users can send a message to individuals.
 - Users can view their inbox and read messages.

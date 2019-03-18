@@ -1,0 +1,11 @@
+[report]
+omit =
+    */python?.?/*
+    */__pycache__/*
+    *.pyc
+    */venv/*
+    */home/travis/virtualenv/*
+    */usr/lib/python3/*
+    */__init__.py
+
+    
