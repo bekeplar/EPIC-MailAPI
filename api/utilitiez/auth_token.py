@@ -67,6 +67,7 @@ def token_required(func):
 
 
 def get_current_identity():
+    """Function for identify a known user identity."""
     return decode_token(extract_token_from_header())["userid"]
 
 
