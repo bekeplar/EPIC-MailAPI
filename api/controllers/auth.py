@@ -7,6 +7,7 @@ from api.models.user import (
     User,
     users,
     check_user_exists,
+    is_valid_credentials
 )
 
 
@@ -66,5 +67,58 @@ class UserController():
                 201,
             )
         return response
+
+    
+    def login(self):
+        if not request.data:
+            return (
+                jsonify(
+                    {"error": "Please provide valid login data", "status": 400}
+                ),
+                400,
+            )
+        # Get user credentials from user input
+        user_credentials = json.loads(request.data)
+        response = None
+        try:
+            email = user_credentials["email"]
+            user_password = user_credentials["password"]
+
+            # Comfirming whether its a known user
+            user_id = is_valid_credentials(email, user_password)
+            if user_id:
+                response = (
+                    jsonify(
+                        {
+                            "status": 200,
+                            "data": [
+                                {
+                                    "token": encode_token(user_id),
+                                    "success": f"{email} logged in successfully",
+                                }
+                            ],
+                        }
+                    ),
+                    200,
+                )
+            else:
+                response = (
+                    jsonify({"error": "Wrong login credentials.", "status": 401}),
+                    401,
+                )
+
+        except KeyError:
+            response = (
+                jsonify(
+                    {
+                        "error": "Please provide the correct keys for the data",
+                        "status": 422,
+                    }
+                ),
+                422,
+            )
+        return response
+
+
 
     

@@ -11,3 +11,7 @@ user_controller = UserController()
 def register_user():
     return user_controller.signup()
 
+
+@users_bp.route("/auth/login", methods=["POST"])
+def login_user():
+    return user_controller.login()
