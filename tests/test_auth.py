@@ -19,7 +19,33 @@ class UserTestCase(unittest.TestCase):
                 "password": "Bekeplar1234"
                 }
 
-    
+    def test_home_page(self):
+        """unit test for success to index endpoint"""
+        response = self.client.get("/", content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.data).get("message"), "Welcome to Epic-Email App")
+
+    def test_method_not_allowed(self):
+        """unit test for method not allowed error"""
+        response = self.client.patch('/', data=json.dumps({
+            "username": "username",
+            "password": "password"
+        }), content_type="application/json")
+        response_data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response_data.get("error"), "Method not allowed")
+
+
+    def test_page_not_found(self):
+        """unit test for page not found error"""
+        response = self.client.get(
+            "url/not/exist", content_type="application/json")
+        response_data = json.loads(response.data.decode())
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response_data.get("error"), "Endpoint for specified URL does not exist")
+
+
+
     def test_can_signup_user(self):
         
         res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.data))
@@ -160,14 +186,14 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual(response_data['status'], 400)
         self.assertIsInstance(response_data, dict)
         
-    # def test_returns_error_if_user_already_exists(self):
+    def test_returns_error_if_user_already_exists(self):
                 
-    #     self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.data))        
-    #     res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.data))
-    #     response_data = json.loads(res.data.decode())
-    #     self.assertEqual(res.status_code,409)
-    #     self.assertEqual(response_data['status'], 409)
-    #     self.assertIsInstance(response_data, dict)
+        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.data))        
+        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.data))
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(res.status_code,409)
+        self.assertEqual(response_data['status'], 409)
+        self.assertIsInstance(response_data, dict)
 
     def test_can_login_user(self):
         data = {
@@ -227,5 +253,6 @@ class UserTestCase(unittest.TestCase):
 
    
     def tearDown(self):
-            pass
+        users.clear()
+            
         

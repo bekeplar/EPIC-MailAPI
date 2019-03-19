@@ -6,7 +6,6 @@ from api.utilitiez.validation import validate_new_user
 from api.models.user import (
     User,
     users,
-    check_user_exists,
     is_valid_credentials
 )
 
@@ -42,12 +41,11 @@ class UserController():
         error = validate_new_user(**new_user)
         if error:
             return error
-        user_exists = check_user_exists(
-            new_user["first_name"], new_user["last_name"], new_user["email"]
-        )
+        user_exists = [user for user in users if user['first_name'] == first_name or
+              user['email'] == email or user['last_name'] == last_name]
         response = None
         if user_exists:
-            response = jsonify({"error": user_exists, "status": 409}), 409
+            response = jsonify({"error": "user already exists", "status": 409}), 409
         else:
 
             new_user_details = User(**new_user)
@@ -93,7 +91,7 @@ class UserController():
                             "status": 200,
                             "data": [
                                 {
-                                    "token": encode_token(user_id),
+                                    "token": encode_token(str(user_id)),
                                     "success": f"{email} logged in successfully",
                                 }
                             ],
