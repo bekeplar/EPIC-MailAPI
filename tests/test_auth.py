@@ -44,8 +44,6 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
         self.assertEqual(response_data.get("error"), "Endpoint for specified URL does not exist")
 
-
-
     def test_can_signup_user(self):
         
         res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.data))
@@ -75,8 +73,6 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual(response_data['status'], 400)
         self.assertIsInstance(response_data, dict)
         
-
-
 
     def test_returns_error_if_email_is_missing(self):
         data = {

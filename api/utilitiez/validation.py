@@ -110,4 +110,27 @@ def validate_new_user(**kwargs):
     return None
 
 
+def validate_sentence(sentence, min_len=0, max_len=0):
+    error = None
+    sentence = str(sentence).strip()
+    if sentence.isdigit():
+        error = "Field cannot be a number"
+    elif len(sentence) < min_len:
+        error = f"Field must contain a minimum of {str(min_len)} characters"
+    elif max_len and len(sentence) > max_len:
+        error = f"Field must contain a maximum of {str(max_len)} characters"
+
+    return error
+
+
+def validate_new_message(**kwargs):
+    errors = dict()
+    errors["subject"] = validate_sentence(kwargs.get("subject"), 10)
+    errors["message"] = validate_sentence(kwargs.get("message"), 4, 100)
+    not_valid = {key: value for key, value in errors.items() if value}
+    if not_valid:
+        return (jsonify({"status": 400, "error": not_valid}), 400)
+    return None
+
+
 
