@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, Blueprint
 from api.views.user import users_bp
 from instance.config import app_config
+from api.views.message import messages_bp
 
 
 def create_app(config_name):
@@ -10,6 +11,8 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
     app.register_blueprint(users_bp)
+    app.register_blueprint(messages_bp)
+
 
     @app.route("/")
     def _home():

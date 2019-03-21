@@ -20,3 +20,7 @@ auth_response = (
     "Please login in again or sign up an account to access this resource"
 )
 
+duplicate_subject = "subject already recorded"
+duplicate_message = "message already exists"
+
+
