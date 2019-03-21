@@ -1,5 +1,6 @@
 
 [![Build Status](https://travis-ci.org/bekeplar/EPIC-MailAPI.svg?branch=develop)](https://travis-ci.org/bekeplar/EPIC-MailAPI)
+[![Coverage Status](https://coveralls.io/repos/github/bekeplar/EPIC-MailAPI/badge.svg?branch=develop)](https://coveralls.io/github/bekeplar/EPIC-MailAPI?branch=develop)
 
 # EPIC-Mail
 
