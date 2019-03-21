@@ -21,7 +21,6 @@ class User:
         user_id += 1
 
 
-
 def is_valid_credentials(email, password):
     "checking for validity of user login details"
     for user in users:

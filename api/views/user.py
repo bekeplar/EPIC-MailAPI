@@ -6,6 +6,8 @@ users_bp = Blueprint("users", __name__, url_prefix="/api/v1")
 
 
 user_controller = UserController()
+
+
 @users_bp.route("/auth/signup", methods=["POST"])
 @sign_up_data_required
 def register_user():
