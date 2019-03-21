@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.org/bekeplar/EPIC-MailAPI.svg?branch=develop)](https://travis-ci.org/bekeplar/EPIC-MailAPI)
+
 # EPIC-Mail
 
 As EPIC Andelans who work towards advancing human potential and giving back to the society, we wish to empower others by building a web app that helps people exchange messages/information over the internet.
