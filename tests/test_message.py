@@ -29,7 +29,8 @@ class MessageTestCase(unittest.TestCase):
         self.message_data = {
             "subject": "My Andela Application",
             "message": "Joseph",
-            "ParentMessageID": "121" 
+            "ParentMessageID": "121",
+            "receiver": "kambugu"
         }
 
         self.user_id = 1

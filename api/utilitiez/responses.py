@@ -11,6 +11,7 @@ wrong_email = "Please provide a valid email format"
 wrong_name = (
     "Name field is a string and cannot be blank or contain a space or a number"
 )
+
 duplicate_email = "Email address already has an account"
 duplicate_first_name = "firstname already registered"
 duplicate_last_name = "lastname already registered"

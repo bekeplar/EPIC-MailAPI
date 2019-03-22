@@ -1,4 +1,5 @@
 from datetime import date
+from api.utilitiez.auth_token import get_current_identity
 from api.utilitiez.responses import (
     duplicate_subject,
     duplicate_message,
@@ -14,9 +15,11 @@ class Message:
         self.message_id = message_id
         self.subject = kwargs["subject"]
         self.message = kwargs["message"]
+        self.sender_status = kwargs["sender_status"]
+        self.reciever_status = "unread"
         self.parent_message_id = kwargs["parent_message_id"]
+        self.receiver = kwargs["receiver"]
         self.created_on = date.today()
-        self.status = "draft"
         message_id += 1
 
 

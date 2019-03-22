@@ -33,6 +33,9 @@ class MessagesController():
             "subject": data.get("subject"),
             "message": data.get("message"),
             "parent_message_id": data.get("ParentMessageID"),
+            "sender_status": "sent",
+            "reciever_status": "unread",
+            "receiver": data.get("reciever"),
         }
 
         not_valid = validate_new_message(**new_message_data)
@@ -54,7 +57,7 @@ class MessagesController():
                         "data": [
                             {
                                 "mail": new_message.__dict__,
-                                "message": "Created message successfully",
+                                "message": "Sent message successfully",
                             }
                         ],
                     }
@@ -65,7 +68,7 @@ class MessagesController():
 
             response = (
                 jsonify(
-                    {"status": 409, "error": "Message already created"}
+                    {"status": 409, "error": "Message already sent"}
                 ),
                 409,
             )
