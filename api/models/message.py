@@ -39,3 +39,13 @@ def get_message_record(message_id):
         if message["message_id"] == message_id
     ]
     return result
+
+
+def get_inbox_record(message_id):
+    """Method to delete a given message from user inbox by id."""
+    result = [
+        message for message in user_messages
+        if message["message_id"] == message_id and message["reciever_status"] == "unread"
+            
+    ]
+    return result
