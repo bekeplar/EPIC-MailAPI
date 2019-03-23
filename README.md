@@ -51,7 +51,7 @@ git clone https://github.com/bekeplar/EPIC-MailAPI.git
 
 ```
 
-cd EPIC-Mail
+cd EPIC-MailAPI
 pip install virtualenv
 source venv/bin/activate
 git checkout <branch name>
