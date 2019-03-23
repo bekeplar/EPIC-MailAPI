@@ -30,6 +30,11 @@ HTTP Method|Endpoint|Functionality
 POST|api/v1/auth/signup|create a new user
 POST|api/vi/auth/login|Login a user
 POST|api/vi/messages|User send email to an individual
+GET|api/vi/messages|Get all received emails
+GET|api/vi/messages/<message_id>|User get a specific email
+DELETE|api/vi/messages/<message_id>|User delete a specific inbox email
+GET|api/vi/messages/sent|User get all his/her sent emails
+GET|api/vi/messages/unread|User send email to an individual
 
 ## Requirements
 
