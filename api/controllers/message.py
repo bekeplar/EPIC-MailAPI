@@ -150,19 +150,16 @@ class MessagesController():
         return response
 
 
-    def fetch_all_received_emails(self, receiver_stat):
-        """
-        Returns all user's inbox messages.
-        """
+    def all_received_emails(self, receiver_stat):
         receiver_id = get_current_identity()
-        collection = get_all_received_messages(receiver_stat, receiver_id)
+        inbox = get_all_received_messages(receiver_stat, receiver_id)
         response = None
 
-        if collection:
+        if inbox:
             response = (
                 jsonify({
                 "status": 200,
-                "data": [record for record in collection],
+                "data": [record for record in inbox],
                 "message": "These are your inbox messages"
             }), 200)
             

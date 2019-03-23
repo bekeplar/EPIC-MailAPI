@@ -18,7 +18,7 @@ def add_email():
 @messages_bp.route("/messages", methods=["GET"])
 @token_required
 def inbox_emails():
-    return message_controller.fetch_all_received_emails("received")
+    return message_controller.all_received_emails("received")
 
 
 
