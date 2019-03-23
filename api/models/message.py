@@ -49,3 +49,12 @@ def get_inbox_record(message_id):
             
     ]
     return result
+    
+
+def get_sent_messages(sender_status, sender_id):
+    """Function which returns all sent messages by a user."""
+    result = [
+        message for message in user_messages
+        if message["sender_status"] == "sent" 
+    ]
+    return result

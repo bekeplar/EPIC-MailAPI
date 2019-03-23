@@ -5,6 +5,7 @@ from api.models.message import (
     check_duplicate_message,
     get_message_record,
     get_inbox_record,
+    get_sent_messages,
     ) 
 from api.utilitiez.auth_token import (
     token_required,
@@ -121,5 +122,32 @@ class MessagesController():
             )
 
         return response
+
+
+    def fetch_sent_emails(self, sender_stat):
+        """
+        Returns all users sent messages.
+        """
+        sender_id = get_current_identity()
+        collection = get_sent_messages(sender_stat, sender_id)
+        response = None
+
+        if collection:
+            response = (
+                jsonify({
+                "status": 200,
+                "data": [record for record in collection],
+                "message": "These are your sent messages"
+            }), 200)
+            
+        else:
+            response = (
+                jsonify(
+                    {"status": 404, "error": "You have not sent any mail yet."
+                }), 404
+            )
+        return response
+        
+
 
           

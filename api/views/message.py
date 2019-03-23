@@ -25,3 +25,9 @@ def fetch_specific(message_id):
 @token_required
 def delete_specific_inbox(message_id):
     return message_controller.delete_email(message_id)
+
+
+@messages_bp.route("/messages/sent", methods=["GET"])
+@token_required
+def get_all_sent():
+    return message_controller.fetch_sent_emails("sent")
