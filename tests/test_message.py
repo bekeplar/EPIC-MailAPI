@@ -197,6 +197,19 @@ class MessageTestCase(unittest.TestCase):
         self.assertIsInstance(response_data, dict)
 
 
+    def test_get_all_sent_mails_with_no_token(self):
+        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.assertEqual(res1.status_code, 200)
+        self.client.post('/api/v1/messages', content_type="application/json",
+            data=json.dumps(self.message_data))
+        res = self.client.get('/api/v1/messages/sent', content_type="application/json",
+            data=json.dumps(self.message_data))
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(response_data['status'], 401)
+        self.assertIsInstance(response_data, dict)
+
 
     def tearDown(self):
         users.clear()
