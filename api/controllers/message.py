@@ -6,6 +6,7 @@ from api.models.message import (
     get_message_record,
     get_inbox_record,
     get_sent_messages,
+    get_all_received_messages,
     ) 
 from api.utilitiez.auth_token import (
     token_required,
@@ -144,6 +145,31 @@ class MessagesController():
             response = (
                 jsonify(
                     {"status": 404, "error": "You have not sent any mail yet."
+                }), 404
+            )
+        return response
+
+
+    def fetch_all_received_emails(self, receiver_stat):
+        """
+        Returns all user's inbox messages.
+        """
+        receiver_id = get_current_identity()
+        collection = get_all_received_messages(receiver_stat, receiver_id)
+        response = None
+
+        if collection:
+            response = (
+                jsonify({
+                "status": 200,
+                "data": [record for record in collection],
+                "message": "These are your inbox messages"
+            }), 200)
+            
+        else:
+            response = (
+                jsonify(
+                    {"status": 404, "error": "You have not received any mail yet."
                 }), 404
             )
         return response

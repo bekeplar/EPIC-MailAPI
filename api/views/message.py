@@ -15,6 +15,13 @@ def add_email():
     return message_controller.new_message(data)
 
 
+@messages_bp.route("/messages", methods=["GET"])
+@token_required
+def inbox_emails():
+    return message_controller.fetch_all_received_emails("received")
+
+
+
 @messages_bp.route("/messages/<message_id>", methods=["GET"])
 @token_required
 def fetch_specific(message_id):
