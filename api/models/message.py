@@ -30,3 +30,12 @@ def check_duplicate_message(subject, Message):
             return duplicate_subject
         elif message['Message'] == message:
             return duplicate_message
+
+
+def get_message_record(message_id):
+    """Method to return a given message by id"""
+    result = [
+        message for message in user_messages
+        if message["message_id"] == message_id
+    ]
+    return result

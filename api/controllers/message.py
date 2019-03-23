@@ -3,6 +3,7 @@ from api.models.message import (
     Message, 
     user_messages,
     check_duplicate_message,
+    get_message_record,
     ) 
 from api.utilitiez.auth_token import (
     token_required,
@@ -75,3 +76,19 @@ class MessagesController():
 
         return response
     
+
+    def get_a_message(self, record_id):
+        results = get_message_record(int(record_id))
+        response = None
+        if results:
+            response = jsonify({"status": 200, "data": [results]}), 200
+        else:
+
+            response = (
+                jsonify(
+                    {"status": 404, "error": "Message with such id does not exist"}
+                ),
+                404,
+            )
+
+        return response

@@ -13,3 +13,9 @@ message_controller = MessagesController()
 def add_email():
     data = request.get_json(force=True)
     return message_controller.new_message(data)
+
+
+@messages_bp.route("/messages/<message_id>", methods=["GET"])
+@token_required
+def fetch_specific(message_id):
+    return message_controller.get_a_message(message_id)
