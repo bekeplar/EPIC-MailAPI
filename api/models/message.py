@@ -24,7 +24,7 @@ class Message:
 
 
 def check_duplicate_message(subject, Message):
-    """Testing for uniqueness of a message"""
+    """Testing for uniqueness of a message."""
     for message in user_messages:
         if message['subject'] == subject:
             return duplicate_subject
