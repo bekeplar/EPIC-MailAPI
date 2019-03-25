@@ -16,7 +16,7 @@ class Message:
         self.subject = kwargs["subject"]
         self.message = kwargs["message"]
         self.sender_status = kwargs["sender_status"]
-        self.reciever_status = "unread"
+        self.receiver_status = "unread"
         self.parent_message_id = kwargs["parent_message_id"]
         self.receiver = kwargs["receiver"]
         self.created_on = date.today()
@@ -45,7 +45,7 @@ def get_inbox_record(message_id):
     """Method to delete a given message from user inbox by id."""
     result = [
         message for message in user_messages
-        if message["message_id"] == message_id and message["reciever_status"] == "unread"
+        if message["message_id"] == message_id and message["receiver_status"] == "unread"
             
     ]
     return result
@@ -56,5 +56,15 @@ def get_sent_messages(sender_status, sender_id):
     result = [
         message for message in user_messages
         if message["sender_status"] == "sent" 
+    ]
+    return result
+
+
+def get_all_received_messages(receiver_status, receiver_id):
+    """Function for getting all received messages."""
+    user_rec = get_current_identity()
+    result = [
+        message for message in user_messages
+        if message["receiver_status"] == "unread" or message["receiver_id"] == user_rec
     ]
     return result
