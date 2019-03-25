@@ -4,6 +4,7 @@ from api.models.message import (
     user_messages,
     check_duplicate_message,
     get_message_record,
+    get_inbox_record,
     ) 
 from api.utilitiez.auth_token import (
     token_required,
@@ -92,3 +93,33 @@ class MessagesController():
             )
 
         return response
+
+
+
+    def delete_email(self, inbox_mail_id):
+        """ 
+        deleting an email from a user's inbox.
+        """
+        results = get_inbox_record(inbox_mail_id)
+        response = None
+        if results:
+            user_messages.remove(results)
+            response = (
+                jsonify({
+                "status": 200,
+                "data": [{
+                    "message": "Message successfully deleted."
+                }]
+            }), 200
+            )
+        else:
+            response = (
+                jsonify(
+                    {"status": 404, "error": "Message with such id does not exist"}
+                ),
+                404,
+            )
+
+        return response
+
+          

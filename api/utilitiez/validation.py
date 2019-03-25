@@ -85,19 +85,6 @@ def validate_name(name, required=1):
         error = None
     return error
 
-# def validate_receiver(receiver, required=1):
-#     error = wrong_receiver_name
-#     if not required and len(str(receiver).strip()) == 0:
-#         error = None
-#     elif (
-#             receiver
-#             and is_string(receiver)
-#             and not contains_space(receiver)
-#             and not contains_number(receiver)
-#     ):
-#         error = None
-#     return error
-
 
 def validate_password(password):
     error = wrong_password

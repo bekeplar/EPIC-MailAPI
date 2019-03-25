@@ -157,6 +157,20 @@ class MessageTestCase(unittest.TestCase):
             self.assertEqual(response_data['status'], 404)
             self.assertIsInstance(response_data, dict)
 
+    def test_delete_message_not_existing(self):
+            self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+            res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+            self.assertEqual(res1.status_code, 200)
+            self.client.post('/api/v1/messages', content_type="application/json",
+                headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.message_data))
+            res = self.client.delete('/api/v1/messages/3', content_type="application/json",
+                headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.message_data))
+            response_data = json.loads(res.data.decode())
+            self.assertEqual(res.status_code, 404)
+            self.assertEqual(response_data['status'], 404)
+            self.assertIsInstance(response_data, dict)
+
+
 
     def tearDown(self):
         users.clear()

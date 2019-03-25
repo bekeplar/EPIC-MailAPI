@@ -19,3 +19,9 @@ def add_email():
 @token_required
 def fetch_specific(message_id):
     return message_controller.get_a_message(message_id)
+
+
+@messages_bp.route("/messages/<message_id>", methods=["DELETE"])
+@token_required
+def delete_specific_inbox(message_id):
+    return message_controller.delete_email(message_id)
