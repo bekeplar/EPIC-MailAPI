@@ -13,8 +13,6 @@ wrong_name = (
 )
 
 duplicate_email = "Email address already has an account"
-duplicate_first_name = "firstname already registered"
-duplicate_last_name = "lastname already registered"
 invalid_token_message = "Provide a valid Token, verification failed"
 expired_token_message = "Token has expired"
 auth_response = (

@@ -2,6 +2,7 @@ from flask import jsonify, request, Blueprint
 import json
 from api.utilitiez.auth_token import (
     encode_token)
+from api.utilitiez.responses import duplicate_email
 from api.utilitiez.validation import validate_new_user
 from api.models.user import (
     User,
@@ -44,7 +45,7 @@ class UserController():
         user_exists = [user for user in users if user['email'] == email]
         response = None
         if user_exists:
-            response = jsonify({"error": "user already exists", "status": 409}), 409
+            response = jsonify({"error": duplicate_email, "status": 409}), 409
         else:
 
             new_user_details = User(**new_user)
