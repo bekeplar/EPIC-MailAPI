@@ -41,8 +41,7 @@ class UserController():
         error = validate_new_user(**new_user)
         if error:
             return error
-        user_exists = [user for user in users if user['first_name'] == first_name or
-              user['email'] == email or user['last_name'] == last_name]
+        user_exists = [user for user in users if user['email'] == email]
         response = None
         if user_exists:
             response = jsonify({"error": "user already exists", "status": 409}), 409
