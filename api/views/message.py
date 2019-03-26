@@ -18,7 +18,7 @@ def add_email():
 @messages_bp.route("/messages", methods=["GET"])
 @token_required
 def inbox_emails():
-    return message_controller.all_received_emails("received")
+    return message_controller.all_received_emails()
 
 
 
@@ -37,4 +37,4 @@ def delete_specific_inbox(message_id):
 @messages_bp.route("/messages/sent", methods=["GET"])
 @token_required
 def get_all_sent():
-    return message_controller.fetch_sent_emails("sent")
+    return message_controller.fetch_sent_emails()

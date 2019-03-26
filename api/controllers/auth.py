@@ -1,18 +1,17 @@
-from flask import jsonify, request, Blueprint
+from flask import jsonify, request
 import json
 from api.utilitiez.auth_token import (
     encode_token)
-from api.utilitiez.responses import duplicate_email
 from api.utilitiez.validation import validate_new_user
-from api.models.user import (
-    User,
-    users,
-    is_valid_credentials
-)
 
+from api.models.user import User
+
+
+user_obj = User()
 
 
 class UserController():
+    """Control logic for communication between user model and view"""
 
     def signup(self):
         new_user = json.loads(request.data)
@@ -42,21 +41,21 @@ class UserController():
         error = validate_new_user(**new_user)
         if error:
             return error
-        user_exists = [user for user in users if user['email'] == email]
+        user_exists = user_obj.check_if_user_exists(new_user["email"]
+        )
         response = None
         if user_exists:
-            response = jsonify({"error": duplicate_email, "status": 409}), 409
+            response = jsonify({"error": user_exists, "status": 409}), 409
         else:
 
-            new_user_details = User(**new_user)
-            users.append(new_user_details.__dict__)
+            new_user_details = user_obj.insert_user(**new_user)
             response = (
                 jsonify(
                     {
                         "status": 201,
                         "data": [
                             {
-                                "user": new_user_details.__dict__,
+                                "user": new_user_details,
                                 "success": f"{email} registered Successfully",
                             }
                         ],
@@ -66,7 +65,6 @@ class UserController():
             )
         return response
 
-    
     def login(self):
         if not request.data:
             return (
@@ -75,15 +73,15 @@ class UserController():
                 ),
                 400,
             )
-        # Get user credentials from user input
+        # Get user credentials
         user_credentials = json.loads(request.data)
         response = None
         try:
-            email = user_credentials["email"]
+            user_email = user_credentials["email"]
             user_password = user_credentials["password"]
 
-            # Comfirming whether its a known user
-            user_id = is_valid_credentials(email, user_password)
+            # submit user details as required
+            user_id = user_obj.is_valid_credentials(user_email, user_password)
             if user_id:
                 response = (
                     jsonify(
@@ -91,8 +89,8 @@ class UserController():
                             "status": 200,
                             "data": [
                                 {
-                                    "token": encode_token(str(user_id)),
-                                    "success": f"{email} logged in successfully",
+                                    "token": encode_token(user_id),
+                                    "success": f"{user_email} logged in successfully",
                                 }
                             ],
                         }
@@ -116,7 +114,3 @@ class UserController():
                 422,
             )
         return response
-
-
-
-    

@@ -1,8 +1,8 @@
 import unittest
 import json
 from api.app import create_app
-from api.views import user
-from api.models.user import User, users
+from database.db import DatabaseConnection
+from api.models.user import User
 
 
 class UserTestCase(unittest.TestCase):
@@ -11,7 +11,8 @@ class UserTestCase(unittest.TestCase):
         """initializing method for a unit test"""
         self.app = create_app("Testing")
         self.client = self.app.test_client(self)
-        
+        self.user_obj = User()
+        self.db = DatabaseConnection()
         self.data = {
                 "firstname": "Bekalaze",
                 "lastname": "Joseph",
@@ -24,6 +25,7 @@ class UserTestCase(unittest.TestCase):
         response = self.client.get("/", content_type="application/json")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.loads(response.data).get("message"), "Welcome to Epic-Email App")
+
 
     def test_method_not_allowed(self):
         """unit test for method not allowed error"""
@@ -142,6 +144,22 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual(response_data['status'], 400)
         self.assertIsInstance(response_data, dict)
 
+
+    def test_first_name_is_not_a_string(self):
+        data = {
+                "firstname": 2222,
+                "lastname": "Joseph",
+                "email": "bekeplar@gmail.com",
+                "password": "Bekeplar1234"
+                }
+        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(res.status_code,400)
+        self.assertEqual(response_data['status'], 400)
+        self.assertIsInstance(response_data, dict)
+
+
+
     def test_email_validity(self):
         data = {
                 "firstname": "Bekalaze",
@@ -208,6 +226,21 @@ class UserTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertEqual(response_data['status'], 200)
         self.assertIsInstance(response_data, dict)
+
+
+    def test_can_login_with_no_data(self):
+        data = {
+            "firstname": "Bekalaze",
+            "lastname": "Joseph",
+            "email": "bekeplar@gmail.com",
+            "password": "Bekeplar1234"
+                }
+        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v1/auth/login', content_type="application/json")
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(response_data['status'], 400)
+        self.assertIsInstance(response_data, dict)
        
        
     def test_returns_error_on_invalid_login_details(self):
@@ -249,6 +282,6 @@ class UserTestCase(unittest.TestCase):
 
    
     def tearDown(self):
-        users.clear()
-            
+        self.db.drop_table('users')
+        
         
