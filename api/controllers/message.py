@@ -1,13 +1,6 @@
 from flask import Blueprint, jsonify, json, request
-from api.models.message import (
-    Message, 
-    user_messages,
-    check_duplicate_message,
-    get_message_record,
-    get_inbox_record,
-    get_sent_messages,
-    get_all_received_messages,
-    ) 
+from api.models.message import Message
+from database.db import DatabaseConnection
 from api.utilitiez.auth_token import (
     token_required,
     get_current_identity,
@@ -15,7 +8,9 @@ from api.utilitiez.auth_token import (
 from api.utilitiez.validation import validate_new_message
 
 message_bp = Blueprint("message_bp", __name__, url_prefix="/api/v1"
-)
+                       )
+
+db = DatabaseConnection()
 
 
 class MessagesController():
@@ -39,7 +34,7 @@ class MessagesController():
             "parent_message_id": data.get("ParentMessageID"),
             "sender_status": "sent",
             "reciever_status": "unread",
-            "receiver": data.get("reciever"),
+            "receiver_id": data.get("reciever"),
         }
 
         not_valid = validate_new_message(**new_message_data)
@@ -47,12 +42,11 @@ class MessagesController():
 
         if not_valid:
             response = not_valid
-        elif not check_duplicate_message(
-                new_message_data["subject"], new_message_data["subject"], 
+        elif not db.check_duplicate_message(
+                new_message_data["subject"], new_message_data["subject"],
         ):
             new_message_data["user_id"] = get_current_identity()
-            new_message = Message(**new_message_data)
-            user_messages.append(new_message.__dict__)
+            new_message = db.create_message(**new_message_data)
 
             response = (
                 jsonify(
@@ -60,7 +54,7 @@ class MessagesController():
                         "status": 201,
                         "data": [
                             {
-                                "mail": new_message.__dict__,
+                                "mail": new_message,
                                 "message": "Sent message successfully",
                             }
                         ],
@@ -78,41 +72,54 @@ class MessagesController():
             )
 
         return response
-    
 
     def get_a_message(self, record_id):
-        results = get_message_record(int(record_id))
+        user_id = get_current_identity()
+        results = db.get_message_record(record_id, user_id)
         response = None
-        if results:
+        if results and "error" in results:
+            response = (
+                jsonify({"status": 401, "error": results["error"]}), 401)
+        elif results:
             response = jsonify({"status": 200, "data": [results]}), 200
         else:
 
             response = (
                 jsonify(
-                    {"status": 404, "error": "Message with such id does not exist"}
+                    {
+                        "status": 404,
+                        "error": "message record with specified id does not exist"
+                    }
                 ),
                 404,
             )
 
         return response
-
-
 
     def delete_email(self, inbox_mail_id):
         """ 
         deleting an email from a user's inbox.
         """
-        results = get_inbox_record(inbox_mail_id)
+        user_id = get_current_identity()
+        results = db.get_message_record(inbox_mail_id, user_id)
+        delete_inbox = db.delete_inbox_mail(inbox_mail_id, user_id
+        )
         response = None
         if results:
-            user_messages.remove(results)
+            delete_inbox
             response = (
-                jsonify({
-                "status": 200,
-                "data": [{
-                    "message": "Message successfully deleted."
-                }]
-            }), 200
+                jsonify(
+                    {
+                        "status": 200,
+                        "data": [
+                            {
+                                "incident": results,
+                                "success": "Message successfully deleted"
+                            }
+                        ],
+                    }
+                ),
+                200,
             )
         else:
             response = (
@@ -124,53 +131,51 @@ class MessagesController():
 
         return response
 
-
-    def fetch_sent_emails(self, sender_stat):
+    def fetch_sent_emails(self):
         """
         Returns all users sent messages.
         """
         sender_id = get_current_identity()
-        collection = get_sent_messages(sender_stat, sender_id)
+        collection = db.get_sent_messages(sender_id)
         response = None
 
         if collection:
             response = (
                 jsonify({
-                "status": 200,
-                "data": [record for record in collection],
-                "message": "These are your sent messages"
-            }), 200)
-            
+                    "status": 200,
+                    "data": collection,
+                    "message": "These are your sent messages"
+                }), 200)
+
         else:
             response = (
                 jsonify(
                     {"status": 404, "error": "You have not sent any mail yet."
-                }), 404
+                     }), 404
             )
         return response
 
-
-    def all_received_emails(self, receiver_stat):
+    def all_received_emails(self):
         receiver_id = get_current_identity()
-        inbox = get_all_received_messages(receiver_stat, receiver_id)
+        inbox = db.get_all_received_messages(receiver_id)
         response = None
 
         if inbox:
             response = (
                 jsonify({
-                "status": 200,
-                "data": [record for record in inbox],
-                "message": "These are your inbox messages"
-            }), 200)
-            
+                    "status": 200,
+                    "data": inbox,
+                    "message": "These are your inbox messages"
+                }), 200)
+
         else:
             response = (
                 jsonify(
                     {"status": 404, "error": "You have not received any mail yet."
-                }), 404
+                     }), 404
             )
         return response
-        
 
 
-          
+    
+

@@ -21,18 +21,6 @@ def create_app(config_name):
             200,
         )
 
-    @app.errorhandler(401)
-    def _not_authorized(e):
-        return (
-            jsonify(
-                {
-                    "error": "Wrong login credentials",
-                    "status": 401,
-                }
-            ),
-            401,
-        )
-
     @app.errorhandler(400)
     def _bad_request(e):
         return (jsonify({"error": "Bad JSON format data", "status": 400}), 400)

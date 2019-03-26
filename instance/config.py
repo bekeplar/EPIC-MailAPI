@@ -37,7 +37,7 @@ class ProductionConfig(BaseConfig):
     TESTING = False
     ENV = "Production"
 
-
+runtime_mode = "Testing"
 app_config = {
     "Development": DevelopmentConfig,
     "Testing": TestingConfig,
