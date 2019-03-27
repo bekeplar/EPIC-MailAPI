@@ -14,10 +14,10 @@ from api.utilitiez.responses import (
 secret_key = environ.get("SECRET_KEY", "let-me-add-mine")
 
 
-def encode_token(user_id, isAdmin=False):
+def encode_token(user_id, is_Admin=False):
     payload = {
         "userid": user_id,
-        "isAdmin": isAdmin,
+        "isAdmin": is_Admin,
         "iat": datetime.datetime.utcnow(),
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=3),
     }

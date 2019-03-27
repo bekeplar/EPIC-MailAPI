@@ -108,7 +108,7 @@ class MessagesController():
                         "status": 200,
                         "data": [
                             {
-                                "incident": results,
+                                "mail": results,
                                 "success": "Message successfully deleted"
                             }
                         ],
