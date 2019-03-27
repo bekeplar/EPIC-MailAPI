@@ -1,44 +1,8 @@
-import unittest
+from tests.base import BaseTest
 import json
-from api.app import create_app
-from database.db import DatabaseConnection
-from api.utilitiez.auth_token import encode_token
-from api.models.user import User
-from api.models.message import Message
 
 
-class MessageTestCase(unittest.TestCase):
-
-    def setUp(self):
-        """initializing method for a unit test"""
-        self.app = create_app("Testing")
-        self.client = self.app.test_client(self)
-        self.db = DatabaseConnection()
-        self.user_data = {
-            "firstname": "Bekalaze",
-            "lastname": "Joseph",
-            "email": "bekeplar@gmail.com",
-            "password": "Bekeplar1234"
-                }
-            
-        self.user_login_data = {
-                       "email":"bekeplar@gmail.com",
-                       "password": "Bekeplar1234"
-                     }
-
-        self.message_data = {
-            "subject": "My Andela Application",
-            "message": "Joseph",
-            "ParentMessageID": "121",
-            "receiver": "kambugu"
-        }
-
-        self.user_id = 1
-        self.token = encode_token(self.user_id)
-
-
-        self.data = {}
-
+class MessageTestCase(BaseTest):
 
     def test_create_message(self):
         self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
@@ -357,9 +321,3 @@ class MessageTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
         self.assertEqual(response_data['status'], 404)
         self.assertIsInstance(response_data, dict)
-
-
-    def tearDown(self):
-        self.db.drop_table('users')
-        self.db.drop_table('messages')
-        
