@@ -60,3 +60,38 @@ class GroupController():
             )
 
         return response
+
+
+    def delete_one_group(self, group_id):
+        """ 
+        Logic for deleting a group.
+        """
+        results = db.get_group_record(group_id)
+        remove_group = db.delete_group(group_id)
+
+        response = None
+        if results:
+            remove_group
+            response = (
+                jsonify(
+                    {
+                        "status": 200,
+                        "data": [
+                            {
+                                "incident": results,
+                                "success": "Group successfully deleted"
+                            }
+                        ],
+                    }
+                ),
+                200,
+            )
+        else:
+            response = (
+                jsonify(
+                    {"status": 404, "error": "Group with such id does not exist"}
+                ),
+                404,
+            )
+
+        return response

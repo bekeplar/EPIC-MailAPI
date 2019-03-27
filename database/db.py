@@ -279,6 +279,25 @@ class DatabaseConnection:
 
 
 
+    def delete_group(self, grp_id):
+        """Function for deleting a group."""
+        sql = (
+            f"DELETE FROM groups WHERE group_id='{grp_id}' returning*;"
+        )
+        self.cursor_database.execute(sql)
+        return self.cursor_database.fetchone()
+
+
+    def get_group_record(self, grp_id):
+        """Function for fetching a specific group ny its id."""
+        sql = (
+            f"SELECT * FROM groups WHERE group_id='{grp_id}';"
+        )
+        self.cursor_database.execute(sql)
+        return self.cursor_database.fetchone()
+
+
+
     def drop_table(self, table_name):
             """
             Drop tables after tests
