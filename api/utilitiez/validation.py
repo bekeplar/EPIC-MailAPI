@@ -134,4 +134,13 @@ def validate_new_message(**kwargs):
     return None
 
 
+def validate_group(**kwargs):
+    errors = dict()
+    errors["group_name"] = validate_sentence(kwargs.get("group_name"),4, 100)
+    not_valid = {key: value for key, value in errors.items() if value}
+    if not_valid:
+        return (jsonify({"status": 400, "error": not_valid}), 400)
+    return None
+
+
 
