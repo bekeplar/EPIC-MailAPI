@@ -6,6 +6,7 @@ from api.utilitiez.responses import (
     wrong_password,
     wrong_name,
     wrong_email,
+    invalid_id,
     
 )
 
@@ -123,7 +124,6 @@ def validate_sentence(sentence, min_len=0, max_len=0):
     return error
 
 
-
 def validate_new_message(**kwargs):
     errors = dict()
     errors["subject"] = validate_sentence(kwargs.get("subject"), 10)
@@ -141,6 +141,3 @@ def validate_group(**kwargs):
     if not_valid:
         return (jsonify({"status": 400, "error": not_valid}), 400)
     return None
-
-
-

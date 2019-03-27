@@ -9,6 +9,7 @@ from api.utilitiez.responses import (
     duplicate_subject,
     duplicate_message,
     duplicate_group,
+    duplicate_member,
 )
 from api.utilitiez.responses import (
     duplicate_email,
@@ -69,7 +70,7 @@ class DatabaseConnection:
 
             create_group_members_table = """CREATE TABLE IF NOT EXISTS group_members
             (
-                group_id INT NOT NULL REFERENCES groups(group_id),
+                group_id SERIAL NOT NULL PRIMARY KEY,
                 user_id INT NOT NULL REFERENCES users(user_id),
                 is_admin BOOLEAN DEFAULT FALSE
             );"""
@@ -283,7 +284,6 @@ class DatabaseConnection:
         return error
 
 
-
     def delete_group(self, grp_id):
         """Function for deleting a group."""
         sql = (
@@ -301,24 +301,14 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-
-    def insert_group_member(self, **kwargs):
-        group_id = kwargs["group_id"]
-        user_id = kwargs["user_id"]
-        # Querry for adding a new user into the group members table
+    def get_all_groups(self):
+        """Method to all groups"""
         sql = (
-            "INSERT INTO group_members ("
-            "group_id,"
-            "user_id)VALUES ("
-            f"'{group_id}',"
-            f"'{user_id}') returning "
-            "user_id, first_name as firstname,"
-            "last_name as lastname,"
-            "email as email"
+            f"SELECT * FROM groups;"
         )
         self.cursor_database.execute(sql)
-        new_user = self.cursor_database.fetchone()
-        return new_user
+        return self.cursor_database.fetchall()
+
 
 
     def drop_table(self, table_name):

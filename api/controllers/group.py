@@ -42,7 +42,7 @@ class GroupController():
                         "status": 201,
                         "data": [
                             {
-                                "mail": created_group,
+                                "group": created_group,
                                 "message": "Group created successfully",
                             }
                         ],
@@ -78,7 +78,7 @@ class GroupController():
                         "status": 200,
                         "data": [
                             {
-                                "incident": results,
+                                "groups": results,
                                 "success": "Group successfully deleted"
                             }
                         ],
@@ -90,6 +90,38 @@ class GroupController():
             response = (
                 jsonify(
                     {"status": 404, "error": "Group with such id does not exist"}
+                ),
+                404,
+            )
+
+        return response
+
+    
+    def fetch_groups(self):
+        """ 
+        Logic for getting all groups.
+        """
+        results = db.get_all_groups()
+        response = None
+        if results:
+            response = (
+                jsonify(
+                    {
+                        "status": 200,
+                        "data": [
+                            {
+                                "groups": results,
+                                "success": "The following are your groups"
+                            }
+                        ],
+                    }
+                ),
+                200,
+            )
+        else:
+            response = (
+                jsonify(
+                    {"status": 404, "error": "You dont have any group created yet"}
                 ),
                 404,
             )

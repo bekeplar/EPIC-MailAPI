@@ -117,6 +117,45 @@ class MessageTestCase(unittest.TestCase):
         self.assertIsInstance(response_data, dict)
 
 
+    def test_get_all_groups(self):
+        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.assertEqual(res1.status_code, 200)
+        self.client.post('/api/v1/groups', content_type="application/json",
+            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
+        res = self.client.get('/api/v1/groups', content_type="application/json",
+            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(response_data['status'], 200)
+        self.assertIsInstance(response_data, dict)
+
+
+    def test_get_all_groups_empty_list(self):
+        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.assertEqual(res1.status_code, 200)
+        res = self.client.get('/api/v1/groups', content_type="application/json",
+            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(response_data['status'], 404)
+        self.assertIsInstance(response_data, dict)
+
+    def test_get_all_groups_with_no_token(self):
+        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.assertEqual(res1.status_code, 200)
+        self.client.post('/api/v1/groups', content_type="application/json",
+            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
+        res = self.client.get('/api/v1/groups', content_type="application/json",
+            data=json.dumps(self.group_data))
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(res.status_code, 401)
+        self.assertEqual(response_data['status'], 401)
+        self.assertIsInstance(response_data, dict)
+
+
     def tearDown(self):
         self.db.drop_table('users')
         self.db.drop_table('groups')

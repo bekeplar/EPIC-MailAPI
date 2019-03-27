@@ -12,6 +12,8 @@ wrong_name = (
     "Name field is a string and cannot be blank or contain a space or a number"
 )
 
+invalid_id = "Id field should be a number" 
+
 duplicate_email = "Email address already has an account"
 invalid_token_message = "Provide a valid Token, verification failed"
 expired_token_message = "Token has expired"
@@ -21,5 +23,5 @@ auth_response = (
 duplicate_group = "Group name already taken"
 duplicate_subject = "subject already recorded"
 duplicate_message = "message already exists"
-
+duplicate_member = "Group member already added"
 

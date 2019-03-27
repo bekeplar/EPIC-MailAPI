@@ -19,3 +19,11 @@ def Form_group():
 @token_required
 def get_group_deleted(group_id):
     return group_controller.delete_one_group(group_id)
+
+
+@group_bp.route("/groups", methods=["GET"])
+@token_required
+def All_group():
+    return group_controller.fetch_groups()
+
+
