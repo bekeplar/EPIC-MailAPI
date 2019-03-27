@@ -3,11 +3,10 @@ import json
 from api.utilitiez.auth_token import (
     encode_token)
 from api.utilitiez.validation import validate_new_user
-
+from database.db import DatabaseConnection
 from api.models.user import User
 
-
-user_obj = User()
+db = DatabaseConnection()
 
 
 class UserController():
@@ -41,14 +40,14 @@ class UserController():
         error = validate_new_user(**new_user)
         if error:
             return error
-        user_exists = user_obj.check_if_user_exists(new_user["email"]
+        user_exists = db.check_if_user_exists(new_user["email"]
         )
         response = None
         if user_exists:
             response = jsonify({"error": user_exists, "status": 409}), 409
         else:
 
-            new_user_details = user_obj.insert_user(**new_user)
+            new_user_details = db.insert_user(**new_user)
             response = (
                 jsonify(
                     {
@@ -81,7 +80,7 @@ class UserController():
             user_password = user_credentials["password"]
 
             # submit user details as required
-            user_id = user_obj.is_valid_credentials(user_email, user_password)
+            user_id = db.is_valid_credentials(user_email, user_password)
             if user_id:
                 response = (
                     jsonify(

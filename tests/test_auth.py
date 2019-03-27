@@ -11,7 +11,6 @@ class UserTestCase(unittest.TestCase):
         """initializing method for a unit test"""
         self.app = create_app("Testing")
         self.client = self.app.test_client(self)
-        self.user_obj = User()
         self.db = DatabaseConnection()
         self.data = {
                 "firstname": "Bekalaze",

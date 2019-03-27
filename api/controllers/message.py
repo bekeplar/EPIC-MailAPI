@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, json, request
 from api.models.message import Message
+from database.db import DatabaseConnection
 from api.utilitiez.auth_token import (
     token_required,
     get_current_identity,
@@ -9,7 +10,7 @@ from api.utilitiez.validation import validate_new_message
 message_bp = Blueprint("message_bp", __name__, url_prefix="/api/v1"
                        )
 
-message_obj = Message()
+db = DatabaseConnection()
 
 
 class MessagesController():
@@ -41,11 +42,11 @@ class MessagesController():
 
         if not_valid:
             response = not_valid
-        elif not message_obj.check_duplicate_message(
+        elif not db.check_duplicate_message(
                 new_message_data["subject"], new_message_data["subject"],
         ):
             new_message_data["user_id"] = get_current_identity()
-            new_message = message_obj.create_message(**new_message_data)
+            new_message = db.create_message(**new_message_data)
 
             response = (
                 jsonify(
@@ -74,7 +75,7 @@ class MessagesController():
 
     def get_a_message(self, record_id):
         user_id = get_current_identity()
-        results = message_obj.get_message_record(record_id, user_id)
+        results = db.get_message_record(record_id, user_id)
         response = None
         if results and "error" in results:
             response = (
@@ -100,8 +101,8 @@ class MessagesController():
         deleting an email from a user's inbox.
         """
         user_id = get_current_identity()
-        results = message_obj.get_message_record(inbox_mail_id, user_id)
-        delete_inbox = message_obj.delete_inbox_mail(inbox_mail_id, user_id
+        results = db.get_message_record(inbox_mail_id, user_id)
+        delete_inbox = db.delete_inbox_mail(inbox_mail_id, user_id
         )
         response = None
         if results:
@@ -135,7 +136,7 @@ class MessagesController():
         Returns all users sent messages.
         """
         sender_id = get_current_identity()
-        collection = message_obj.get_sent_messages(sender_id)
+        collection = db.get_sent_messages(sender_id)
         response = None
 
         if collection:
@@ -156,7 +157,7 @@ class MessagesController():
 
     def all_received_emails(self):
         receiver_id = get_current_identity()
-        inbox = message_obj.get_all_received_messages(receiver_id)
+        inbox = db.get_all_received_messages(receiver_id)
         response = None
 
         if inbox:
