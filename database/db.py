@@ -73,13 +73,10 @@ class DatabaseConnection:
                 is_blacklisted BOOLEAN DEFAULT FALSE,
                 last_login DATE DEFAULT CURRENT_TIMESTAMP
             );"""
-
-
             self.cursor_database.execute(create_user_table)
             self.cursor_database.execute(create_message_table)
             self.cursor_database.execute(create_group_table)
             self.cursor_database.execute(create_auth_table)
-
         except (Exception, psycopg2.Error) as e:
             print(e)
     
@@ -94,7 +91,6 @@ class DatabaseConnection:
         last_name = kwargs["last_name"]
         email = kwargs["email"]
         user_password = generate_password_hash(kwargs["password"])
-
         # Querry for adding a new user into users_db
         sql = (
             "INSERT INTO users ("
