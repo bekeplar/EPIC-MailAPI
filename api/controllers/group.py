@@ -34,7 +34,6 @@ class GroupController():
         elif not db.check_duplicate_group(
                 group_data["group_name"],
         ):
-            group_data["user_id"] = get_current_identity()
             created_group = db.insert_new_group(**group_data)
 
             response = (
