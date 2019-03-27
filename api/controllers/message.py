@@ -1,14 +1,9 @@
 from flask import Blueprint, jsonify, json, request
 from api.models.message import Message
 from database.db import DatabaseConnection
-from api.utilitiez.auth_token import (
-    token_required,
-    get_current_identity,
-)
+from api.utilitiez.auth_token import get_current_identity
 from api.utilitiez.validation import validate_new_message
 
-message_bp = Blueprint("message_bp", __name__, url_prefix="/api/v1"
-                       )
 
 db = DatabaseConnection()
 

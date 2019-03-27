@@ -18,7 +18,7 @@ expired_token_message = "Token has expired"
 auth_response = (
     "Please login in again or sign up an account to access this resource"
 )
-
+duplicate_group = "Group name already taken"
 duplicate_subject = "subject already recorded"
 duplicate_message = "message already exists"
 

@@ -8,6 +8,7 @@ from api.utilitiez.auth_token import get_current_identity
 from api.utilitiez.responses import (
     duplicate_subject,
     duplicate_message,
+    duplicate_group,
 )
 from api.utilitiez.responses import (
     duplicate_email,
@@ -62,7 +63,7 @@ class DatabaseConnection:
             (
                 group_id SERIAL NOT NULL PRIMARY KEY,
                 group_name VARCHAR(25) NOT NULL,
-                is_admin BOOLEAN DEFAULT FALSE
+                is_admin BOOLEAN DEFAULT TRUE
             );"""
 
             create_auth_table = """CREATE TABLE IF NOT EXISTS users_auth
@@ -246,8 +247,37 @@ class DatabaseConnection:
         return self.cursor_database.fetchone()
 
 
+    def insert_new_group(self, **kwargs):
+        """A method for adding a new group to the database"""
+        group_name = kwargs["group_name"]
 
- 
+        # Querry for adding a new group into the groups database
+        sql = (
+            "INSERT INTO groups ("
+            "group_name)VALUES ("
+            f"'{group_name}') returning "
+            "group_id, group_name as groupname,"
+            "is_admin as is_admin"
+        )
+        self.cursor_database.execute(sql)
+        new_user = self.cursor_database.fetchone()
+        return new_user
+
+
+    def check_duplicate_group(self, group_name):
+        """Testing for uniqueness of my created group."""
+        exists_query = (
+            "SELECT group_name from groups where "
+            f"group_name ='{group_name}';"
+        )
+        self.cursor_database.execute(exists_query)
+        group_exists = self.cursor_database.fetchone()
+        error = {}
+        if group_exists and group_exists.get("group_name") == group_name:
+            error["group_name"] = duplicate_group
+        return error
+
+
 
     def drop_table(self, table_name):
             """
