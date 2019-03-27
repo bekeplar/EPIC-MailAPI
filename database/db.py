@@ -66,6 +66,14 @@ class DatabaseConnection:
                 is_admin BOOLEAN DEFAULT TRUE
             );"""
 
+
+            create_group_members_table = """CREATE TABLE IF NOT EXISTS group_members
+            (
+                group_id INT NOT NULL REFERENCES groups(group_id),
+                user_id INT NOT NULL REFERENCES users(user_id),
+                is_admin BOOLEAN DEFAULT FALSE
+            );"""
+
             create_auth_table = """CREATE TABLE IF NOT EXISTS users_auth
             (
                 user_id SERIAL NOT NULL PRIMARY KEY,
@@ -77,6 +85,7 @@ class DatabaseConnection:
             self.cursor_database.execute(create_message_table)
             self.cursor_database.execute(create_group_table)
             self.cursor_database.execute(create_auth_table)
+            self.cursor_database.execute(create_group_members_table)
         except (Exception, psycopg2.Error) as e:
             print(e)
     
@@ -292,6 +301,24 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
+
+    def insert_group_member(self, **kwargs):
+        group_id = kwargs["group_id"]
+        user_id = kwargs["user_id"]
+        # Querry for adding a new user into the group members table
+        sql = (
+            "INSERT INTO group_members ("
+            "group_id,"
+            "user_id)VALUES ("
+            f"'{group_id}',"
+            f"'{user_id}') returning "
+            "user_id, first_name as firstname,"
+            "last_name as lastname,"
+            "email as email"
+        )
+        self.cursor_database.execute(sql)
+        new_user = self.cursor_database.fetchone()
+        return new_user
 
 
     def drop_table(self, table_name):
