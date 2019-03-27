@@ -73,13 +73,10 @@ class DatabaseConnection:
                 is_blacklisted BOOLEAN DEFAULT FALSE,
                 last_login DATE DEFAULT CURRENT_TIMESTAMP
             );"""
-
-
             self.cursor_database.execute(create_user_table)
             self.cursor_database.execute(create_message_table)
             self.cursor_database.execute(create_group_table)
             self.cursor_database.execute(create_auth_table)
-
         except (Exception, psycopg2.Error) as e:
             print(e)
     
@@ -94,7 +91,6 @@ class DatabaseConnection:
         last_name = kwargs["last_name"]
         email = kwargs["email"]
         user_password = generate_password_hash(kwargs["password"])
-
         # Querry for adding a new user into users_db
         sql = (
             "INSERT INTO users ("
@@ -276,6 +272,25 @@ class DatabaseConnection:
         if group_exists and group_exists.get("group_name") == group_name:
             error["group_name"] = duplicate_group
         return error
+
+
+
+    def delete_group(self, grp_id):
+        """Function for deleting a group."""
+        sql = (
+            f"DELETE FROM groups WHERE group_id='{grp_id}' returning*;"
+        )
+        self.cursor_database.execute(sql)
+        return self.cursor_database.fetchone()
+
+
+    def get_group_record(self, grp_id):
+        """Function for fetching a specific group ny its id."""
+        sql = (
+            f"SELECT * FROM groups WHERE group_id='{grp_id}';"
+        )
+        self.cursor_database.execute(sql)
+        return self.cursor_database.fetchone()
 
 
 

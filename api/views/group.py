@@ -14,3 +14,8 @@ def Form_group():
     data = request.get_json()
     return group_controller.new_group(data)
 
+
+@group_bp.route("/groups/<group_id>", methods=["DELETE"])
+@token_required
+def get_group_deleted(group_id):
+    return group_controller.delete_one_group(group_id)
