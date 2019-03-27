@@ -11,6 +11,6 @@ group_controller = GroupController()
 @group_bp.route("/groups", methods=["POST"])
 @token_required
 def Form_group():
-    data = request.get_json(force=True)
+    data = request.get_json()
     return group_controller.new_group(data)
 
