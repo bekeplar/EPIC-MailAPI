@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from api.controllers.message import MessagesController
 from api.utilitiez.auth_token import token_required
 
-messages_bp = Blueprint("messages", __name__, url_prefix="/api/v1")
+messages_bp = Blueprint("messages", __name__, url_prefix="/api/v2")
 
 
 message_controller = MessagesController()

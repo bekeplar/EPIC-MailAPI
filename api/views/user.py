@@ -2,7 +2,7 @@ from api.utilitiez.validation import sign_up_data_required
 from flask import Blueprint
 from api.controllers.auth import UserController
 
-users_bp = Blueprint("users", __name__, url_prefix="/api/v1")
+users_bp = Blueprint("users", __name__, url_prefix="/api/v2")
 
 
 user_controller = UserController()

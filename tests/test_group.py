@@ -4,10 +4,10 @@ import json
 class MessageTestCase(BaseTest):
 
     def test_create_new_group(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        res = self.client.post('/api/v1/groups', content_type="application/json",
+        res = self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 201)
@@ -16,10 +16,10 @@ class MessageTestCase(BaseTest):
 
 
     def test_create_group_without_data(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        res = self.client.post('/api/v1/groups', content_type="application/json",
+        res = self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token})
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 400)
@@ -31,10 +31,10 @@ class MessageTestCase(BaseTest):
         data = {
             "group_name": ""
         }
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        res = self.client.post('/api/v1/groups', content_type="application/json",
+        res = self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 400)
@@ -46,10 +46,10 @@ class MessageTestCase(BaseTest):
         data = {
             "group_name": 222
         }
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        res = self.client.post('/api/v1/groups', content_type="application/json",
+        res = self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 400)
@@ -58,12 +58,12 @@ class MessageTestCase(BaseTest):
 
 
     def test_delete_group(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        self.client.post('/api/v1/groups', content_type="application/json",
+        self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
-        res = self.client.delete('/api/v1/groups/1', content_type="application/json",
+        res = self.client.delete('/api/v2/groups/1', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 200)
@@ -72,12 +72,12 @@ class MessageTestCase(BaseTest):
 
 
     def test_delete_existing_not_existing(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        self.client.post('/api/v1/groups', content_type="application/json",
+        self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
-        res = self.client.delete('/api/v1/groups/100', content_type="application/json",
+        res = self.client.delete('/api/v2/groups/100', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 404)
@@ -86,12 +86,12 @@ class MessageTestCase(BaseTest):
 
 
     def test_get_all_groups(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        self.client.post('/api/v1/groups', content_type="application/json",
+        self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
-        res = self.client.get('/api/v1/groups', content_type="application/json",
+        res = self.client.get('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 200)
@@ -100,10 +100,10 @@ class MessageTestCase(BaseTest):
 
 
     def test_get_all_groups_empty_list(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        res = self.client.get('/api/v1/groups', content_type="application/json",
+        res = self.client.get('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 404)
@@ -111,12 +111,12 @@ class MessageTestCase(BaseTest):
         self.assertIsInstance(response_data, dict)
 
     def test_get_all_groups_with_no_token(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        self.client.post('/api/v1/groups', content_type="application/json",
+        self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
-        res = self.client.get('/api/v1/groups', content_type="application/json",
+        res = self.client.get('/api/v2/groups', content_type="application/json",
             data=json.dumps(self.group_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 401)
@@ -125,12 +125,12 @@ class MessageTestCase(BaseTest):
 
 
     def test_edit_group_name(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        self.client.post('/api/v1/groups', content_type="application/json",
+        self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
-        res = self.client.patch('/api/v1/groups/1/name', content_type="application/json",
+        res = self.client.patch('/api/v2/groups/1/name', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data1))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 200)
@@ -139,12 +139,12 @@ class MessageTestCase(BaseTest):
 
 
     def test_edit_group_name_not_present(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        self.client.post('/api/v1/groups', content_type="application/json",
+        self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
-        res = self.client.patch('/api/v1/groups/4/name', content_type="application/json",
+        res = self.client.patch('/api/v2/groups/4/name', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data1))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 404)
@@ -153,12 +153,12 @@ class MessageTestCase(BaseTest):
 
 
     def test_edit_group_name_no_token(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
-        self.client.post('/api/v1/groups', content_type="application/json",
+        self.client.post('/api/v2/groups', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
-        res = self.client.patch('/api/v1/groups/1/name', content_type="application/json",
+        res = self.client.patch('/api/v2/groups/1/name', content_type="application/json",
             data=json.dumps(self.group_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 401)

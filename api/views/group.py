@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from api.controllers.group import GroupController
 from api.utilitiez.auth_token import token_required
 
-group_bp = Blueprint("group", __name__, url_prefix="/api/v1")
+group_bp = Blueprint("group", __name__, url_prefix="/api/v2")
 
 
 group_controller = GroupController()
