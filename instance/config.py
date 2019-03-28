@@ -1,6 +1,5 @@
 import os
 from os import environ
-
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
