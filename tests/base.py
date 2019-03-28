@@ -49,6 +49,7 @@ class BaseTest(unittest.TestCase):
         self.user_id = 1
         self.token = encode_token(self.user_id)
         self.data = {}
+        self.member = 2
 
     def tearDown(self):
         self.db.drop_table('users')

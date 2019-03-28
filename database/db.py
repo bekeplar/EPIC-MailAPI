@@ -71,7 +71,7 @@ class DatabaseConnection:
             create_group_members_table = """CREATE TABLE IF NOT EXISTS group_members
             (
                 group_id SERIAL NOT NULL PRIMARY KEY,
-                user_id INT NOT NULL REFERENCES users(user_id),
+                user_id INT NOT NULL,
                 is_admin BOOLEAN DEFAULT FALSE
             );"""
 
@@ -266,8 +266,24 @@ class DatabaseConnection:
             "is_admin as is_admin"
         )
         self.cursor_database.execute(sql)
-        new_user = self.cursor_database.fetchone()
-        return new_user
+        new_group = self.cursor_database.fetchone()
+        return new_group
+
+    def create_new_group_member(self, **kwargs):
+        """A method for adding a new group member to members database"""
+        user_id = kwargs["user_id"]
+
+        # Querry for adding a new group member.
+        sql = (
+            "INSERT INTO group_members ("
+            "user_id)VALUES ("
+            f"'{user_id}') returning "
+            "group_id, user_id as user_id,"
+            "is_admin as is_admin"
+        )
+        self.cursor_database.execute(sql)
+        new_member = self.cursor_database.fetchone()
+        return new_member
 
 
     def check_duplicate_group(self, group_name):
@@ -281,6 +297,20 @@ class DatabaseConnection:
         error = {}
         if group_exists and group_exists.get("group_name") == group_name:
             error["group_name"] = duplicate_group
+        return error
+
+
+    def check_member_exists(self, sub_id):
+        """Testing for uniqueness of a group memeber"""
+        exists_query = (
+            "SELECT * from group_members where "
+            f"user_id ='{sub_id}';"
+        )
+        self.cursor_database.execute(exists_query)
+        member_exists = self.cursor_database.fetchone()
+        error = {}
+        if member_exists and member_exists.get("user_id") == sub_id:
+            error["user_id"] = "Member already added"
         return error
 
 

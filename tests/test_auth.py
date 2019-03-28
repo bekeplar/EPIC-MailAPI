@@ -31,14 +31,14 @@ class UserTestCase(BaseTest):
 
     def test_can_signup_user(self):
         
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 201)
         self.assertEqual(response_data['status'], 201)
         self.assertIsInstance(response_data, dict)
 
     def test_can_signup_user_with_no_data(self):  
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json")
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json")
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 400)
         self.assertEqual(response_data['status'], 400)
@@ -51,7 +51,7 @@ class UserTestCase(BaseTest):
                 "email": "",
                 "password": ""
             }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -65,7 +65,7 @@ class UserTestCase(BaseTest):
                 "email": "",
                 "password": "Bekeplar1234"
         }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -79,7 +79,7 @@ class UserTestCase(BaseTest):
                 "email": "bekeplar@gmail.com",
                 "password": "Bekeplar1234"
                 }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -93,7 +93,7 @@ class UserTestCase(BaseTest):
                 "email": "bekeplar@gmail.com",
                 "password": "Bekeplar1234"
                 }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -107,7 +107,7 @@ class UserTestCase(BaseTest):
                 "email": "bekeplar@gmail.com",
                 "password": "Bekeplar1234"
                 }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -120,7 +120,7 @@ class UserTestCase(BaseTest):
                 "email": "bekeplar@gmail.com",
                 "password": "Bekeplar1234"
                 }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -134,7 +134,7 @@ class UserTestCase(BaseTest):
                 "email": "bekeplar@gmail.com",
                 "password": "Bekeplar1234"
                 }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -149,7 +149,7 @@ class UserTestCase(BaseTest):
                 "email": "bekeplargmail.com",
                 "password": "Bekeplar1234"
                 }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -163,7 +163,7 @@ class UserTestCase(BaseTest):
                 "email": "bekeplar@gmail.com",
                 "password": "Bekeplar"
                 }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -176,7 +176,7 @@ class UserTestCase(BaseTest):
                 "email": "bekeplar@gmail.com",
                 "password": "Bek12"
                 }
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
@@ -184,16 +184,16 @@ class UserTestCase(BaseTest):
         
     def test_returns_error_if_user_already_exists(self):
                 
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res = self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res = self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,409)
         self.assertEqual(response_data['status'], 409)
         self.assertIsInstance(response_data, dict)
 
     def test_can_login_user(self):
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
-        res = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
+        res = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 200)
         self.assertEqual(response_data['status'], 200)
@@ -207,8 +207,8 @@ class UserTestCase(BaseTest):
             "email": "bekeplar@gmail.com",
             "password": "Bekeplar1234"
                 }
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(data))
-        res = self.client.post('/api/v1/auth/login', content_type="application/json")
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(data))
+        res = self.client.post('/api/v2/auth/login', content_type="application/json")
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 400)
         self.assertEqual(response_data['status'], 400)
@@ -220,8 +220,8 @@ class UserTestCase(BaseTest):
                        "email":"bekeplar@gmail.com",
                        "password": "Bekeplax233"
                      }
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
-        res = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
+        res = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(login_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 401)
         self.assertEqual(response_data['status'], 401)
@@ -232,8 +232,8 @@ class UserTestCase(BaseTest):
                        "email":"bekeplar@gmail.com"
                 
                     }
-        self.client.post('/api/v1/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
-        res = self.client.post('/api/v1/auth/login', content_type="application/json", data=json.dumps(login_data))
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))
+        res = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(login_data))
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,422)
         self.assertEqual(response_data['status'], 422)

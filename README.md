@@ -1,46 +1,51 @@
 
-[![Build Status](https://travis-ci.org/bekeplar/EPIC-MailAPI.svg?branch=develop)](https://travis-ci.org/bekeplar/EPIC-MailAPI)
+[![Build Status](https://trav2s-ci.org/bekeplar/EPIC-MailAPI.svg?branch=develop)](https://trav2s-ci.org/bekeplar/EPIC-MailAPI)
 [![Coverage Status](https://coveralls.io/repos/github/bekeplar/EPIC-MailAPI/badge.svg?branch=develop)](https://coveralls.io/github/bekeplar/EPIC-MailAPI?branch=develop)
-[![Maintainability](https://api.codeclimate.com/v1/badges/49dbd566e9d8528662f4/maintainability)](https://codeclimate.com/github/bekeplar/EPIC-MailAPI/maintainability)
+[![Maintainability](https://api.codeclimate.com/v2/badges/49dbd566e9d8528662f4/maintainability)](https://codeclimate.com/github/bekeplar/EPIC-MailAPI/maintainability)
 
 # EPIC-Mail
 
-As EPIC Andelans who work towards advancing human potential and giving back to the society, we wish to empower others by building a web app that helps people exchange messages/information over the internet.
+As EPIC Andelans who work towards advancing human potential and giv2ng back to the society, we wish to empower others by building a web app that helps people exchange messages/information over the internet.
 
 ## Required features
 
 - Users can sign up.
 - Users can login.
 - Users can create groups.
-- Users can send a message to individuals.
-- Users can view their inbox and read messages.
+- Users can send a message to indiv2duals.
+- Users can v2ew their inbox and read messages.
 - Users can retract sent messages.
 - Users can save an email as draft and send it later or delete it.
 
 ## Optional Features
 
 - User can reset password.
-- Integrate Twilio and deliver messages via SMS.
+- Integrate Twilio and deliver messages v2a SMS.
 - Users can upload a profile  photo.
 
 ## Endpoints
 
 HTTP Method|Endpoint|Functionality
 -----------|--------|-------------
-POST|api/v1/auth/signup|create a new user
-POST|api/vi/auth/login|Login a user
-POST|api/vi/messages|User send email to an individual
-GET|api/vi/messages|Get all received emails
-GET|api/vi/messages/<message_id>|User get a specific email
-DELETE|api/vi/messages/<message_id>|User delete a specific inbox email
-GET|api/vi/messages/sent|User get all his/her sent emails
-GET|api/vi/messages/unread|User send email to an individual
+POST|api/v2/auth/signup|create a new user
+POST|api/v2/auth/login|Login a user
+POST|api/v2/messages|User send email to an indiv2dual
+GET|api/v2/messages|Get all received emails
+GET|api/v2/messages/<message_id>|User get a specific email
+DELETE|api/v2/messages/<message_id>|User delete a specific inbox email
+GET|api/v2/messages/sent|User get all his/her sent emails
+GET|api/v2/messages/unread|User send email to an indiv2dual
+POST|api/v2/groups|create a new user group
+GET|api/v2/groups|Fetch all groups
+DELETE|api/v2/groups/<group_id>|User delete a specific he owns
+PATCH|api/v2/groups/<group_id>/name|User edit name a specific group they own
+PATCH|api/v2/groups/<group_id>/users|Admin add a member to a specific group they own
 
 ## Requirements
 
 - Python
 - Flask
-- Virtualenv
+- v2rtualenv
 - postgresql
 - Postman
 
@@ -57,7 +62,7 @@ git clone https://github.com/bekeplar/EPIC-MailAPI.git
 ```
 
 cd EPIC-MailAPI
-pip install virtualenv
+pip install v2rtualenv
 source venv/bin/activate
 git checkout <branch name>
 pip install -r requirements.txt
