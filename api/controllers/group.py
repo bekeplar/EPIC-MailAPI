@@ -2,7 +2,10 @@ from flask import Blueprint, jsonify, json, request
 from api.models.group import Group
 from database.db import DatabaseConnection
 from api.utilitiez.auth_token import get_current_identity
-from api.utilitiez.validation import validate_group, validate_name
+from api.utilitiez.validation import (
+    validate_group,
+    validate_name, 
+    )
 
 db = DatabaseConnection()
 
@@ -163,4 +166,52 @@ class GroupController():
                 ),
                 200,
             )
+        return response
+
+
+    
+    def add_member(self, data):
+        if not request.data:
+            return (
+                jsonify(
+                    {
+                        "error": "Please select member to add",
+                        "status": 400,
+                    }
+                ),
+                400,
+            )
+        data = request.get_json(force=True)
+        member_data = {
+            "user_id": data["user_id"],
+        }
+
+        if not db.check_member_exists(
+                member_data["user_id"],
+        ):
+            new_member = db.create_new_group_member(**member_data)
+
+            response = (
+                jsonify(
+                    {
+                        "status": 201,
+                        "data": [
+                            {
+                                "member": new_member,
+                                "message": "member added successfully",
+                            }
+                        ],
+                    }
+                ),
+                201,
+            )
+        else:
+
+            response = (
+                jsonify(
+                    {"status": 409, "error": "This member already exists"}
+                ),
+                409,
+            )
+
         return response

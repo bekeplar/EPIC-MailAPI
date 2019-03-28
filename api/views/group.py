@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from api.controllers.group import GroupController
 from api.utilitiez.auth_token import token_required
 
-group_bp = Blueprint("group", __name__, url_prefix="/api/v1")
+group_bp = Blueprint("group", __name__, url_prefix="/api/v2")
 
 
 group_controller = GroupController()
@@ -32,5 +32,12 @@ def All_group():
 def new_group_name(group_id):
     data = request.get_json()
     return group_controller.edit_group_name(group_id, data)
+
+
+@group_bp.route("/groups/<group_id>/users", methods=["POST"])
+@token_required
+def new_group_add(group_id):
+    data = request.get_json()
+    return group_controller.add_member(data)
 
 
