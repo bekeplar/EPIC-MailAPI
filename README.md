@@ -39,7 +39,8 @@ POST|api/v2/groups|create a new user group
 GET|api/v2/groups|Fetch all groups
 DELETE|api/v2/groups/<group_id>|User delete a specific he owns
 PATCH|api/v2/groups/<group_id>/name|User edit name a specific group they own
-PATCH|api/v2/groups/<group_id>/users|Admin add a member to a specific group they own
+POST|api/v2/groups/<group_id>/users|Admin add a member to a specific group they own
+DELETE|api/v2/groups/<group_id>/users/<user_id>|Admin remove a member from a group they own
 
 ## Requirements
 

@@ -350,6 +350,23 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
+    def delete_group_member(self, mbr_id, grp_id):
+        """Function for deleting a group member record."""
+        sql = (
+            f"DELETE FROM group_members WHERE user_id='{mbr_id}' "
+            f"AND group_id='{grp_id}' returning *;"
+        )
+        self.cursor_database.execute(sql)
+        return self.cursor_database.fetchone()
+
+
+    def get_member(self, mbr_id):
+        sql = (
+            f"SELECT * FROM group_members WHERE user_id='{mbr_id}';"
+        )
+        self.cursor_database.execute(sql)
+        return self.cursor_database.fetchone()
+
 
     def drop_table(self, table_name):
             """
