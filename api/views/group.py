@@ -27,3 +27,10 @@ def All_group():
     return group_controller.fetch_groups()
 
 
+@group_bp.route("/groups/<group_id>/name", methods=["PATCH"])
+@token_required
+def new_group_name(group_id):
+    data = request.get_json()
+    return group_controller.edit_group_name(group_id, data)
+
+

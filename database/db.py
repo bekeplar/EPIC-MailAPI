@@ -301,6 +301,7 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
+
     def get_all_groups(self):
         """Method to all groups"""
         sql = (
@@ -309,6 +310,15 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
 
+
+    def update_group_name(self, grp_id, grp_name):
+        """Method for updating a user's group name."""
+        sql = (
+            f"UPDATE groups SET group_name='{grp_name}' "
+            f"WHERE group_id='{grp_id}' returning group_id , group_name;"
+        )
+        self.cursor_database.execute(sql)
+        return self.cursor_database.fetchone()
 
 
     def drop_table(self, table_name):
