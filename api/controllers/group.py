@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, json, request
 from api.models.group import Group
 from database.db import DatabaseConnection
 from api.utilitiez.auth_token import get_current_identity
-from api.utilitiez.validation import validate_group
+from api.utilitiez.validation import validate_group, validate_name
 
 db = DatabaseConnection()
 
@@ -125,5 +125,42 @@ class GroupController():
                 ),
                 404,
             )
+        return response
 
+
+
+    def edit_group_name(self, group_id, data):
+        """Function for changing the name of a group"""
+        group_name = request.get_json(force=True).get("new_name")
+        identity = db.get_group_record(group_id)
+        response = None
+        if not identity:
+            response = (
+                jsonify(
+                    {
+                        "status": 404,
+                        "error": "Group record with specified id does not exist",
+                    }
+                ),
+                404,
+            )
+        else:
+            results = db.update_group_name(group_id, group_name)
+            is_admin = True
+            response = (
+                jsonify(
+                    {
+                        "status": 200,
+                        "data": [
+                            {
+                                "id": results["group_id"],
+                                "name": results["group_name"],
+                                "is_admin": is_admin,
+                                "success": "Group name updated successfully",
+                            }
+                        ],
+                    }
+                ),
+                200,
+            )
         return response

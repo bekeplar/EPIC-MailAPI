@@ -39,7 +39,11 @@ class BaseTest(unittest.TestCase):
 
 
         self.group_data = {
-            "group_name": "Andela21",
+            "group_name": "Andela21"
+        }
+
+        self.group_data1 = {
+            "group_name": "Andela35"
         }
 
         self.user_id = 1
