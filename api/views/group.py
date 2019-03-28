@@ -41,3 +41,10 @@ def new_group_add(group_id):
     return group_controller.add_member(data)
 
 
+@group_bp.route("/groups/<group_id>/users/<user_id>", methods=["DELETE"])
+@token_required
+def destroy_user(user_id, group_id):
+    return group_controller.remove_member(user_id, group_id)
+
+
+

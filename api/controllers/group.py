@@ -131,7 +131,6 @@ class GroupController():
         return response
 
 
-
     def edit_group_name(self, group_id, data):
         """Function for changing the name of a group"""
         group_name = request.get_json(force=True).get("new_name")
@@ -167,7 +166,6 @@ class GroupController():
                 200,
             )
         return response
-
 
     
     def add_member(self, data):
@@ -214,4 +212,37 @@ class GroupController():
                 409,
             )
 
+        return response
+
+
+    def remove_member(self, user_id, group_id):
+        """ 
+        Logic for deleting a group member.
+        """
+        results = db.get_member(user_id)
+        blacklist_member = db.delete_group_member(user_id, group_id)
+        response = None
+        if results:
+            blacklist_member
+            response = (
+                jsonify(
+                    {
+                        "status": 200,
+                        "data": [
+                            {
+                                "groups": results,
+                                "success": "member successfully deleted"
+                            }
+                        ],
+                    }
+                ),
+                200,
+            )
+        else:
+            response = (
+                jsonify(
+                    {"status": 404, "error": "No member with specified id exists"}
+                ),
+                404,
+            )
         return response

@@ -71,7 +71,7 @@ class MessageTestCase(BaseTest):
         self.assertIsInstance(response_data, dict)
 
 
-    def test_delete_existing_not_existing(self):
+    def test_delete_group_not_existing(self):
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
         self.assertEqual(res1.status_code, 200)
@@ -175,6 +175,20 @@ class MessageTestCase(BaseTest):
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code, 400)
         self.assertEqual(response_data['status'], 400)
+        self.assertIsInstance(response_data, dict)
+
+
+    def test_delete_member_not_existing(self):
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.assertEqual(res1.status_code, 200)
+        self.client.post('/api/v2/groups', content_type="application/json",
+            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_data))
+        res = self.client.delete('/api/v2/groups/1/users/7', content_type="application/json",
+            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.member))
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(response_data['status'], 404)
         self.assertIsInstance(response_data, dict)
 
 
