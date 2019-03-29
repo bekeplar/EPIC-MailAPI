@@ -3,7 +3,7 @@
 from api.app import create_app
 
 # Creating an app instance 
-app = create_app("Development")
+app = create_app("Production")
 
 if __name__ == "__main__":
     app.run()
