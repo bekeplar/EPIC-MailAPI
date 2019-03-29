@@ -38,18 +38,16 @@ class MessagesController():
         if not known_user:
             response = (
                 jsonify(
-                    {"status": 404, "error": "Receiver does not exist"}
+                    {"status": 404, "error": "Receiver is not a known epicmail user"}
                 ),
                 404,
             )  
         elif not_valid:
-            response = not_valid
-            
+            response = not_valid 
         elif not db.check_duplicate_message(
                 new_message_data["subject"], new_message_data["subject"],
         ):
             new_message_data["user_id"] = get_current_identity()
-        
             new_message = db.create_message(**new_message_data)
 
             response = (
@@ -67,14 +65,12 @@ class MessagesController():
                 201,
             )
         else:
-
             response = (
                 jsonify(
                     {"status": 409, "error": "Message already sent"}
                 ),
                 409,
             )
-
         return response
 
     def get_a_message(self, record_id):
@@ -85,7 +81,11 @@ class MessagesController():
             response = (
                 jsonify({"status": 401, "error": results["error"]}), 401)
         elif results:
-            response = jsonify({"status": 200, "data": [results]}), 200
+            response = jsonify({
+                "status": 200, 
+                "data": [results],
+                "success": "message record found successfully."
+                }), 200
         else:
 
             response = (
@@ -132,7 +132,6 @@ class MessagesController():
                 ),
                 404,
             )
-
         return response
 
     def fetch_sent_emails(self):
@@ -142,7 +141,6 @@ class MessagesController():
         sender_id = get_current_identity()
         collection = db.get_sent_messages(sender_id)
         response = None
-
         if collection:
             response = (
                 jsonify({

@@ -133,9 +133,10 @@ class GroupController():
 
     def edit_group_name(self, group_id, data):
         """Function for changing the name of a group"""
-        group_name = request.get_json(force=True).get("new_name")
+        group_name = request.get_json(force=True).get("group_name")
         identity = db.get_group_record(group_id)
         response = None
+        
         if not identity:
             response = (
                 jsonify(
@@ -155,8 +156,7 @@ class GroupController():
                         "status": 200,
                         "data": [
                             {
-                                "id": results["group_id"],
-                                "name": results["group_name"],
+                                "id": results,
                                 "is_admin": is_admin,
                                 "success": "Group name updated successfully",
                             }
@@ -181,14 +181,12 @@ class GroupController():
             )
         data = request.get_json(force=True)
         member_data = {
-            "user_id": data["user_id"],
+            "user_id": data.get("user_id"),
         }
-
         if not db.check_member_exists(
                 member_data["user_id"],
         ):
             new_member = db.create_new_group_member(**member_data)
-
             response = (
                 jsonify(
                     {

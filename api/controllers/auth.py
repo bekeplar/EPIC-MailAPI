@@ -53,9 +53,9 @@ class UserController():
                     {
                         "status": 201,
                         "data": [
-                            {
+                            { 
                                 "user": new_user_details,
-                                "success": f"{email} registered Successfully",
+                                "success": f"{first_name} registered Successfully",
                             }
                         ],
                     }

@@ -231,7 +231,7 @@ class DatabaseConnection:
             f"SELECT * FROM messages WHERE sender_id='{owner_id}';"
         )
         self.cursor_database.execute(sql)
-        return self.cursor_database.fetchone()
+        return self.cursor_database.fetchall()
 
 
     def get_all_received_messages(self, owner_id):
@@ -240,7 +240,7 @@ class DatabaseConnection:
             f"SELECT * FROM messages WHERE receiver_id='{owner_id}';"
         )
         self.cursor_database.execute(sql)
-        return self.cursor_database.fetchone()
+        return self.cursor_database.fetchall()
 
     def get_user(self, owner_id):
         """Function for checking for an existing user."""
@@ -278,10 +278,10 @@ class DatabaseConnection:
         new_group = self.cursor_database.fetchone()
         return new_group
 
+
     def create_new_group_member(self, **kwargs):
         """A method for adding a new group member to members database"""
         user_id = kwargs["user_id"]
-
         # Querry for adding a new group member.
         sql = (
             "INSERT INTO group_members ("
@@ -357,7 +357,8 @@ class DatabaseConnection:
             f"WHERE group_id='{grp_id}' returning group_id , group_name;"
         )
         self.cursor_database.execute(sql)
-        return self.cursor_database.fetchone()
+        return self.cursor_database.fetchall()
+
 
     def delete_group_member(self, mbr_id, grp_id):
         """Function for deleting a group member record."""
