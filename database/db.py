@@ -90,10 +90,6 @@ class DatabaseConnection:
         except (Exception, psycopg2.Error) as e:
             print(e)
     
-    def database_connection(self, database_name):
-            """Function for connecting to appropriate database"""
-            return psycopg2.connect(dbname='postgres', user='postgres', host='localhost', password='bekeplar')
-
     
     def insert_user(self, **kwargs):
         """User class method for adding new user to the users database"""
@@ -117,6 +113,13 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         new_user = self.cursor_database.fetchone()
         return new_user
+        
+
+    def database_connection(self, database_name):
+            """Function for connecting to appropriate database"""
+            return psycopg2.connect(dbname='dcej6qn3n0s4fl', user='cgdicyqboxiwwq',
+            host='ec2-54-225-129-101.compute-1.amazonaws.com', password='1d882aa397d300a862a0045b854aaf8d384ffed5813f64f6c456bc0cc930045c')
+
 
     def check_if_user_exists(self, email):
         """Making sure that a user's email is unique"""
