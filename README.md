@@ -1,5 +1,5 @@
 
-[![Build Status](https://trav2s-ci.org/bekeplar/EPIC-MailAPI.svg?branch=develop)](https://trav2s-ci.org/bekeplar/EPIC-MailAPI)
+[![Build Status](https://travis-ci.org/bekeplar/EPIC-MailAPI.svg?branch=develop)](https://trav2s-ci.org/bekeplar/EPIC-MailAPI)
 [![Coverage Status](https://coveralls.io/repos/github/bekeplar/EPIC-MailAPI/badge.svg?branch=develop)](https://coveralls.io/github/bekeplar/EPIC-MailAPI?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v2/badges/49dbd566e9d8528662f4/maintainability)](https://codeclimate.com/github/bekeplar/EPIC-MailAPI/maintainability)
 
@@ -113,6 +113,9 @@ user = [
 
 
 ```
+
+## Hosting link
+[heroku](https://kepicmail.herokuapp.com/)
 
 ## Authors
 
