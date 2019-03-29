@@ -56,7 +56,7 @@ class DatabaseConnection:
                 receiver_status VARCHAR(50) NOT NULL,
                 parent_message_id INT NOT NULL,
                 created_on  DATE DEFAULT CURRENT_TIMESTAMP,
-                sender_id VARCHAR(50) NOT NULL,
+                sender_id INT NOT NULL,
                 receiver_id INT NOT NULL
             );"""
 
@@ -173,19 +173,19 @@ class DatabaseConnection:
             "subject, message, sender_status, receiver_status, receiver_id, sender_id, parent_message_id, created_on"
             ")VALUES ("
             f"'{subject}', '{message}','{sender_status}', '{receiver_status}',"
-            f"'{sender_id}', '{receiver_id}', '{parent_message_id}' ,'{created_on}') returning "
+            f"'{receiver_id}', '{sender_id}', '{parent_message_id}' ,'{created_on}') returning "
             "message_id,subject as subject,"
             "message as message, "
             "sender_status as sender_status,"
             "receiver_status as receiver_status, "
-            "receiver_id as receiver_id, "
+            "sender_id as sender_id, "
             "parent_message_id as parent_message_id, "
             "created_on as created_on, "
-            "sender_id as sender_id;"
+            "receiver_id as receiver_id;"
         )
         self.cursor_database.execute(sql)
-        new_incident = self.cursor_database.fetchone()
-        return new_incident
+        new_message = self.cursor_database.fetchone()
+        return new_message
 
 
     def check_duplicate_message(self, subject, message):
@@ -231,7 +231,7 @@ class DatabaseConnection:
             f"SELECT * FROM messages WHERE sender_id='{owner_id}';"
         )
         self.cursor_database.execute(sql)
-        return self.cursor_database.fetchone()
+        return self.cursor_database.fetchall()
 
 
     def get_all_received_messages(self, owner_id):
@@ -240,7 +240,16 @@ class DatabaseConnection:
             f"SELECT * FROM messages WHERE receiver_id='{owner_id}';"
         )
         self.cursor_database.execute(sql)
-        return self.cursor_database.fetchone()
+        return self.cursor_database.fetchall()
+
+    def get_user(self, owner_id):
+        """Function for checking for an existing user."""
+        sql = (
+            f"SELECT user_id FROM users WHERE user_id='{owner_id}';"
+        )
+        self.cursor_database.execute(sql)
+        user_in_db = self.cursor_database.fetchone()
+        return user_in_db if True else False
 
 
     def delete_inbox_mail(self, msg_id, user_id):
@@ -269,10 +278,10 @@ class DatabaseConnection:
         new_group = self.cursor_database.fetchone()
         return new_group
 
+
     def create_new_group_member(self, **kwargs):
         """A method for adding a new group member to members database"""
         user_id = kwargs["user_id"]
-
         # Querry for adding a new group member.
         sql = (
             "INSERT INTO group_members ("
@@ -348,7 +357,8 @@ class DatabaseConnection:
             f"WHERE group_id='{grp_id}' returning group_id , group_name;"
         )
         self.cursor_database.execute(sql)
-        return self.cursor_database.fetchone()
+        return self.cursor_database.fetchall()
+
 
     def delete_group_member(self, mbr_id, grp_id):
         """Function for deleting a group member record."""
