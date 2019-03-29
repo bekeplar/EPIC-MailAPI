@@ -55,8 +55,7 @@ class UserTestCase(BaseTest):
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
-        self.assertIsInstance(response_data, dict)
-        
+        self.assertIsInstance(response_data, dict) 
 
     def test_returns_error_if_email_is_missing(self):
         data = {
@@ -69,9 +68,8 @@ class UserTestCase(BaseTest):
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
-        self.assertIsInstance(response_data, dict)
-        
-    
+        self.assertIsInstance(response_data, dict)  
+
     def test_returns_error_if_first_name_not_string(self):
         data = {
                 "firstname": 123,
@@ -83,8 +81,7 @@ class UserTestCase(BaseTest):
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
-        self.assertIsInstance(response_data, dict)
-        
+        self.assertIsInstance(response_data, dict) 
 
     def test_missing_first_name(self):
         data = {
@@ -97,8 +94,7 @@ class UserTestCase(BaseTest):
         response_data = json.loads(res.data.decode())
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
-        self.assertIsInstance(response_data, dict)
-        
+        self.assertIsInstance(response_data, dict) 
 
     def test_missing_last_name(self):
         data = {
@@ -126,7 +122,6 @@ class UserTestCase(BaseTest):
         self.assertEqual(response_data['status'], 400)
         self.assertIsInstance(response_data, dict)
 
-
     def test_first_name_is_not_a_string(self):
         data = {
                 "firstname": 2222,
@@ -139,7 +134,6 @@ class UserTestCase(BaseTest):
         self.assertEqual(res.status_code,400)
         self.assertEqual(response_data['status'], 400)
         self.assertIsInstance(response_data, dict)
-
 
 
     def test_email_validity(self):

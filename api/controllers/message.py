@@ -29,18 +29,27 @@ class MessagesController():
             "parent_message_id": data.get("ParentMessageID"),
             "sender_status": "sent",
             "reciever_status": "unread",
-            "receiver_id": data.get("reciever"),
+            "receiver_id": data.get("receiver"),
         }
 
         not_valid = validate_new_message(**new_message_data)
+        known_user = db.get_user(data.get("receiver"))
         response = None
-
-        if not_valid:
+        if not known_user:
+            response = (
+                jsonify(
+                    {"status": 404, "error": "Receiver does not exist"}
+                ),
+                404,
+            )  
+        elif not_valid:
             response = not_valid
+            
         elif not db.check_duplicate_message(
                 new_message_data["subject"], new_message_data["subject"],
         ):
             new_message_data["user_id"] = get_current_identity()
+        
             new_message = db.create_message(**new_message_data)
 
             response = (

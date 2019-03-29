@@ -34,7 +34,7 @@ class BaseTest(unittest.TestCase):
             "subject": "My Andela Application",
             "message": "Joseph",
             "ParentMessageID": "121",
-            "receiver": "kambugu"
+            "receiver": "1"
         }
 
 

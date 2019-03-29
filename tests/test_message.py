@@ -31,7 +31,8 @@ class MessageTestCase(BaseTest):
         data = {
             "subject": "",
             "message": "Joseph",
-            "ParentMessageID": "121" 
+            "ParentMessageID": "121",
+            "receiver": "1" 
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
@@ -47,7 +48,8 @@ class MessageTestCase(BaseTest):
         data = {
             "subject": "My Andela Application",
             "message": "",
-            "ParentMessageID": "121" 
+            "ParentMessageID": "121",
+            "receiver": "1"
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
@@ -62,7 +64,8 @@ class MessageTestCase(BaseTest):
     def test_create_message_missing_subject_field(self):
         data = {
             "message": "Joseph",
-            "ParentMessageID": "121" 
+            "ParentMessageID": "121",
+            "receiver": "1" 
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
@@ -79,7 +82,8 @@ class MessageTestCase(BaseTest):
         data = {
             "subject": "My Andela Application",
             "message": 3,
-            "ParentMessageID": "121" 
+            "ParentMessageID": "121",
+            "receiver": "1"
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
@@ -96,7 +100,8 @@ class MessageTestCase(BaseTest):
         data = {
             "subject": "My",
             "message": 3,
-            "ParentMessageID": "121" 
+            "ParentMessageID": "121",
+            "receiver": "1" 
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
@@ -113,7 +118,8 @@ class MessageTestCase(BaseTest):
         data = {
             "subject": 3,
             "message": "Joseph",
-            "ParentMessageID": "121" 
+            "ParentMessageID": "121",
+            "receiver": "1" 
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
@@ -154,7 +160,7 @@ class MessageTestCase(BaseTest):
             "subject": "My Andela Application",
             "message": "Jose",
             "ParentMessageID": "121",
-            "receiver": "kambugu"
+            "receiver": "1"
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
@@ -173,7 +179,7 @@ class MessageTestCase(BaseTest):
             "subject": "My Andela Application",
             "message": "Joseph",
             "ParentMessageID": "121",
-            "receiver": "kambugu"
+            "receiver": "1"
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
@@ -267,8 +273,8 @@ class MessageTestCase(BaseTest):
         res = self.client.get('/api/v2/messages/sent', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.message_data))
         response_data = json.loads(res.data.decode())
-        self.assertEqual(res.status_code, 404)
-        self.assertEqual(response_data['status'], 404)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(response_data['status'], 200)
         self.assertIsInstance(response_data, dict)
 
 
