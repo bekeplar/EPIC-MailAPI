@@ -64,7 +64,6 @@ class GroupController():
 
         return response
 
-
     def delete_one_group(self, group_id):
         """ 
         Logic for deleting a group.
@@ -99,7 +98,6 @@ class GroupController():
 
         return response
 
-    
     def fetch_groups(self):
         """ 
         Logic for getting all groups.
@@ -124,12 +122,12 @@ class GroupController():
         else:
             response = (
                 jsonify(
-                    {"status": 404, "error": "You dont have any group created yet"}
+                    {"status": 404, 
+                    "error": "You dont have any group created yet"}
                 ),
                 404,
             )
         return response
-
 
     def edit_group_name(self, group_id, data):
         """Function for changing the name of a group"""
@@ -166,7 +164,6 @@ class GroupController():
                 200,
             )
         return response
-
     
     def add_member(self, data):
         if not request.data:
@@ -211,7 +208,6 @@ class GroupController():
             )
 
         return response
-
 
     def remove_member(self, user_id, group_id):
         """ 

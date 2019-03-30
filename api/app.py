@@ -15,7 +15,6 @@ def create_app(config_name):
     app.register_blueprint(messages_bp)
     app.register_blueprint(group_bp)
 
-
     @app.route("/")
     def _home():
         return (

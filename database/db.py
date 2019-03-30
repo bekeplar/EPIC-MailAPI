@@ -31,12 +31,14 @@ class DatabaseConnection:
 
             if runtime_mode == "Production":
                 DATABASE_URL = os.environ['DATABASE_URL']
-                self.database_connect = psycopg2.connect(DATABASE_URL, sslmode='require')
+                self.database_connect = psycopg2.connect(
+                    DATABASE_URL, sslmode='require')
 
             self.database_connect.autocommit = True
-            self.cursor_database = self.database_connect.cursor(cursor_factory=RealDictCursor)
+            self.cursor_database = self.database_connect.cursor(
+                cursor_factory=RealDictCursor)
             print('Connected to the database successfully.')
-            
+
             create_user_table = """CREATE TABLE IF NOT EXISTS users
             (
                 user_id SERIAL NOT NULL PRIMARY KEY,
@@ -67,7 +69,6 @@ class DatabaseConnection:
                 is_admin BOOLEAN DEFAULT TRUE
             );"""
 
-
             create_group_members_table = """CREATE TABLE IF NOT EXISTS group_members
             (
                 group_id SERIAL NOT NULL PRIMARY KEY,
@@ -89,12 +90,11 @@ class DatabaseConnection:
             self.cursor_database.execute(create_group_members_table)
         except (Exception, psycopg2.Error) as e:
             print(e)
-    
-    def database_connection(self, database_name):
-            """Function for connecting to appropriate database"""
-            return psycopg2.connect(dbname='postgres', user='postgres', host='localhost', password='bekeplar')
 
-    
+    def database_connection(self, database_name):
+        """Function for connecting to appropriate database"""
+        return psycopg2.connect(dbname='postgres', user='postgres', host='localhost', password='bekeplar')
+
     def insert_user(self, **kwargs):
         """User class method for adding new user to the users database"""
         first_name = kwargs["first_name"]
@@ -149,13 +149,13 @@ class DatabaseConnection:
                 and user_details.get("email") == email
                 and check_password_hash(
                 user_details.get("user_password"), user_password
-        )
+                )
         ):
             id = user_details.get("user_id")
 
             return id
         return None
-    
+
     def create_message(self, **kwargs):
         """Function for adding a new message to the database"""
         subject = kwargs.get("subject")
@@ -187,7 +187,6 @@ class DatabaseConnection:
         new_message = self.cursor_database.fetchone()
         return new_message
 
-
     def check_duplicate_message(self, subject, message):
         """Testing for uniqueness of a message."""
         exists_query = (
@@ -204,7 +203,6 @@ class DatabaseConnection:
             error["message"] = duplicate_message
         return error
 
-
     def get_message_record(self, msg_id, owner_id):
         """Method to return a given message by id"""
         sql = (
@@ -213,7 +211,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
-
 
     def get_inbox_record(self, owner_id, msg_id):
         """Method to delete a given message from user inbox by id."""
@@ -224,7 +221,6 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-
     def get_sent_messages(self, owner_id):
         """Function which returns all sent messages by a user."""
         sql = (
@@ -232,7 +228,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
-
 
     def get_all_received_messages(self, owner_id):
         """Function for getting all received messages."""
@@ -251,7 +246,6 @@ class DatabaseConnection:
         user_in_db = self.cursor_database.fetchone()
         return user_in_db if True else False
 
-
     def delete_inbox_mail(self, msg_id, user_id):
         """Function to delete a user's inbox mail."""
         sql = (
@@ -260,7 +254,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
-
 
     def insert_new_group(self, **kwargs):
         """A method for adding a new group to the database"""
@@ -278,7 +271,6 @@ class DatabaseConnection:
         new_group = self.cursor_database.fetchone()
         return new_group
 
-
     def create_new_group_member(self, **kwargs):
         """A method for adding a new group member to members database"""
         user_id = kwargs["user_id"]
@@ -294,7 +286,6 @@ class DatabaseConnection:
         new_member = self.cursor_database.fetchone()
         return new_member
 
-
     def check_duplicate_group(self, group_name):
         """Testing for uniqueness of my created group."""
         exists_query = (
@@ -307,7 +298,6 @@ class DatabaseConnection:
         if group_exists and group_exists.get("group_name") == group_name:
             error["group_name"] = duplicate_group
         return error
-
 
     def check_member_exists(self, sub_id):
         """Testing for uniqueness of a group memeber"""
@@ -322,7 +312,6 @@ class DatabaseConnection:
             error["user_id"] = "Member already added"
         return error
 
-
     def delete_group(self, grp_id):
         """Function for deleting a group."""
         sql = (
@@ -330,7 +319,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
-
 
     def get_group_record(self, grp_id):
         """Function for fetching a specific group ny its id."""
@@ -340,7 +328,6 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-
     def get_all_groups(self):
         """Method to all groups"""
         sql = (
@@ -348,7 +335,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
-
 
     def update_group_name(self, grp_id, grp_name):
         """Method for updating a user's group name."""
@@ -359,7 +345,6 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
 
-
     def delete_group_member(self, mbr_id, grp_id):
         """Function for deleting a group member record."""
         sql = (
@@ -369,7 +354,6 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-
     def get_member(self, mbr_id):
         sql = (
             f"SELECT * FROM group_members WHERE user_id='{mbr_id}';"
@@ -377,13 +361,12 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-
     def drop_table(self, table_name):
-            """
-            Drop tables after tests
-            """
-            drop = f"DROP TABLE {table_name} CASCADE;"
-            self.cursor_database.execute(drop)
+        """
+        Drop tables after tests
+        """
+        drop = f"DROP TABLE {table_name} CASCADE;"
+        self.cursor_database.execute(drop)
 
 
 if __name__ == '__main__':
