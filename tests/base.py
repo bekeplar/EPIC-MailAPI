@@ -37,6 +37,13 @@ class BaseTest(unittest.TestCase):
             "receiver": "1"
         }
 
+        self.group_message_data = {
+            "subject": "My Andela Application",
+            "message": "Joseph",
+            "ParentMessageID": "121",
+            "groupId": "1"
+        }
+
 
         self.group_data = {
             "group_name": "Andela21"

@@ -194,33 +194,31 @@ class MessageTestCase(BaseTest):
         self.assertIsInstance(response_data, dict)
 
 
-
-
     def test_get_message(self):
-            self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-            res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
-            self.assertEqual(res1.status_code, 200)
-            self.client.post('/api/v2/messages', content_type="application/json",
-                headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.message_data))
-            res = self.client.get('/api/v2/messages/2', content_type="application/json",
-                headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.message_data))
-            response_data = json.loads(res.data.decode())
-            self.assertEqual(response_data['status'], 404)
-            self.assertEqual(res.status_code, 404)
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.assertEqual(res1.status_code, 200)
+        self.client.post('/api/v2/messages', content_type="application/json",
+            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.message_data))
+        res = self.client.get('/api/v2/messages/2', content_type="application/json",
+            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.message_data))
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(response_data['status'], 404)
+        self.assertEqual(res.status_code, 404)
 
 
     def test_get_message_with_no_token(self):
-            self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-            res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
-            self.assertEqual(res1.status_code, 200)
-            self.client.post('/api/v2/messages', content_type="application/json",
-                headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.message_data))
-            res = self.client.get('/api/v2/messages/2', content_type="application/json",
-                data=json.dumps(self.message_data))
-            response_data = json.loads(res.data.decode())
-            self.assertEqual(response_data['status'], 401)
-            self.assertEqual(res.status_code, 401)
-           
+        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
+        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
+        self.assertEqual(res1.status_code, 200)
+        self.client.post('/api/v2/messages', content_type="application/json",
+            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.message_data))
+        res = self.client.get('/api/v2/messages/2', content_type="application/json",
+            data=json.dumps(self.message_data))
+        response_data = json.loads(res.data.decode())
+        self.assertEqual(response_data['status'], 401)
+        self.assertEqual(res.status_code, 401)
+    
     def test_get_message_not_existing(self):
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
