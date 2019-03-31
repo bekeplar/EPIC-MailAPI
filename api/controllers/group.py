@@ -5,6 +5,7 @@ from api.utilitiez.auth_token import get_current_identity
 from api.utilitiez.validation import (
     validate_group,
     validate_name, 
+    validate_new_message,
     )
 
 db = DatabaseConnection()
@@ -64,6 +65,7 @@ class GroupController():
 
         return response
 
+
     def delete_one_group(self, group_id):
         """ 
         Logic for deleting a group.
@@ -98,6 +100,7 @@ class GroupController():
 
         return response
 
+
     def fetch_groups(self):
         """ 
         Logic for getting all groups.
@@ -128,6 +131,7 @@ class GroupController():
                 404,
             )
         return response
+
 
     def edit_group_name(self, group_id, data):
         """Function for changing the name of a group"""
@@ -165,6 +169,7 @@ class GroupController():
             )
         return response
     
+
     def add_member(self, data):
         if not request.data:
             return (
@@ -209,6 +214,7 @@ class GroupController():
 
         return response
 
+
     def remove_member(self, user_id, group_id):
         """ 
         Logic for deleting a group member.
@@ -235,8 +241,71 @@ class GroupController():
         else:
             response = (
                 jsonify(
-                    {"status": 404, "error": "No member with specified id exists"}
+                    {"status": 404, 
+                    "error": "No member with specified id exists"}
                 ),
                 404,
             )
         return response
+
+
+    def new_group_message(self, data):
+        if not request.data:
+            return (
+                jsonify(
+                    {
+                        "error": "Please provide some data",
+                        "status": 400,
+                    }
+                ),
+                400,
+            )
+        data = request.get_json(force=True)
+        new_message_data = {
+            "subject": data.get("subject"),
+            "message": data.get("message"),
+            "parent_message_id": data.get("ParentMessageID"),
+            "sender_status": "sent",
+            "reciever_status": "unread",
+            "group_id": data.get("groupId"),
+        }
+
+        not_valid = validate_new_message(**new_message_data)
+        group_exist = db.get_user(data.get("groupId"))
+        response = None
+        if not group_exist:
+            response = (
+                jsonify(
+                    {"status": 404, "error": "Group does not exist."}
+                ),
+                404,
+            )  
+        if not_valid:
+            response = not_valid
+            new_message_data["user_id"] = get_current_identity()
+            new_message = db.create_group_message(**new_message_data)
+
+            response = (
+                jsonify(
+                    {
+                        "status": 201,
+                        "data": [
+                            {
+                                "mail": new_message,
+                                "message": "Sent message successfully",
+                            }
+                        ],
+                    }
+                ),
+                201,
+            )
+        else:
+            response = (
+                jsonify(
+                    {"status": 404,
+                     "error": "You are not a member to that group."}
+                ),
+                404,
+            )
+        return response
+

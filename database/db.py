@@ -62,6 +62,19 @@ class DatabaseConnection:
                 receiver_id INT NOT NULL
             );"""
 
+            create_group_messages_table = """CREATE TABLE IF NOT EXISTS group_messages
+            (
+                message_id SERIAL NOT NULL PRIMARY KEY,
+                subject VARCHAR(125) NOT NULL,
+                message TEXT NOT NULL,
+                sender_status VARCHAR(50) NOT NULL,
+                receiver_status VARCHAR(50) NOT NULL,
+                parent_message_id INT NOT NULL,
+                created_on  DATE DEFAULT CURRENT_TIMESTAMP,
+                sender_id INT NOT NULL,
+                group_id INT NOT NULL
+            );"""
+
             create_group_table = """CREATE TABLE IF NOT EXISTS groups
             (
                 group_id SERIAL NOT NULL PRIMARY KEY,
@@ -88,6 +101,7 @@ class DatabaseConnection:
             self.cursor_database.execute(create_group_table)
             self.cursor_database.execute(create_auth_table)
             self.cursor_database.execute(create_group_members_table)
+            self.cursor_database.execute(create_group_messages_table)
         except (Exception, psycopg2.Error) as e:
             print(e)
 
@@ -187,6 +201,37 @@ class DatabaseConnection:
         new_message = self.cursor_database.fetchone()
         return new_message
 
+    def create_group_message(self, **kwargs):
+        """Function for adding a new message to the database"""
+        subject = kwargs.get("subject")
+        message = kwargs.get("message")
+        sender_status = "sent"
+        receiver_status = "unread"
+        group_id = kwargs.get("group_id")
+        sender_id = kwargs.get("user_id")
+        parent_message_id = kwargs.get("parent_message_id")
+        created_on = date.today()
+
+        # sql command for inserting a new group message in the database
+        sql = (
+            "INSERT INTO group_messages ("
+            "subject, message, sender_status, receiver_status, group_id, sender_id, parent_message_id, created_on"
+            ")VALUES ("
+            f"'{subject}', '{message}','{sender_status}', '{receiver_status}',"
+            f"'{group_id}', '{sender_id}', '{parent_message_id}' ,'{created_on}') returning "
+            "message_id,subject as subject,"
+            "message as message, "
+            "sender_status as sender_status,"
+            "receiver_status as receiver_status, "
+            "sender_id as sender_id, "
+            "parent_message_id as parent_message_id, "
+            "created_on as created_on, "
+            "group_id as group_id;"
+        )
+        self.cursor_database.execute(sql)
+        new_message = self.cursor_database.fetchone()
+        return new_message
+
     def check_duplicate_message(self, subject, message):
         """Testing for uniqueness of a message."""
         exists_query = (
@@ -245,6 +290,15 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         user_in_db = self.cursor_database.fetchone()
         return user_in_db if True else False
+
+    def get_group(self, grp_id):
+        """Function for checking for an existing group."""
+        sql = (
+            f"SELECT group_id FROM groups WHERE group_id='{grp_id}';"
+        )
+        self.cursor_database.execute(sql)
+        group_in_db = self.cursor_database.fetchone()
+        return group_in_db if True else False
 
     def delete_inbox_mail(self, msg_id, user_id):
         """Function to delete a user's inbox mail."""
