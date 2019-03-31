@@ -249,7 +249,7 @@ class GroupController():
         return response
 
 
-    def new_group_message(self, data):
+    def new_group_message(self, data, grp_id):
         if not request.data:
             return (
                 jsonify(
@@ -271,7 +271,8 @@ class GroupController():
         }
 
         not_valid = validate_new_message(**new_message_data)
-        group_exist = db.get_user(data.get("groupId"))
+        group_exist = db.get_group(data.get("groupId"))
+        known_member = db.get_group_member(data.get("groupId"))
         response = None
         if not group_exist:
             response = (
@@ -280,32 +281,35 @@ class GroupController():
                 ),
                 404,
             )  
+
+        if not known_member:
+            response = (
+                jsonify({
+                    "status": 404, 
+                    "error": "No member with such id exists."}
+                ),
+                404,
+            )  
+        
         if not_valid:
             response = not_valid
-            new_message_data["user_id"] = get_current_identity()
-            new_message = db.create_group_message(**new_message_data)
 
+        else:
+            new_message_data["user_id"] = get_current_identity()
+            group_message = db.create_group_message(**new_message_data)
             response = (
                 jsonify(
                     {
                         "status": 201,
                         "data": [
                             {
-                                "mail": new_message,
+                                "mail": group_message,
                                 "message": "Sent message successfully",
                             }
                         ],
                     }
                 ),
                 201,
-            )
-        else:
-            response = (
-                jsonify(
-                    {"status": 404,
-                     "error": "You are not a member to that group."}
-                ),
-                404,
             )
         return response
 

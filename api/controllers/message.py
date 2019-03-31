@@ -37,8 +37,9 @@ class MessagesController():
         response = None
         if not known_user:
             response = (
-                jsonify(
-                    {"status": 404, "error": "Receiver is not a known epicmail user"}
+                jsonify({
+                    "status": 404, 
+                    "error": "Receiver is not a known epicmail user"}
                 ),
                 404,
             )  
