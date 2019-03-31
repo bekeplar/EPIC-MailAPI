@@ -264,7 +264,6 @@ class MessageTestCase(BaseTest):
         self.assertEqual(response_data['status'], 400)
         self.assertIsInstance(response_data, dict)
 
-
     def test_create_message_subject_field_cannot_be_number(self):
         data = {
             "subject": "My Andela Application",
