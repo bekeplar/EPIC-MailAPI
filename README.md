@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/bekeplar/EPIC-MailAPI.svg?branch=develop)](https://trav2s-ci.org/bekeplar/EPIC-MailAPI)
+[![Build Status](https://travis-ci.org/bekeplar/EPIC-MailAPI.svg?branch=develop)](https://travis-ci.org/bekeplar/EPIC-MailAPI)
 [![Coverage Status](https://coveralls.io/repos/github/bekeplar/EPIC-MailAPI/badge.svg?branch=develop)](https://coveralls.io/github/bekeplar/EPIC-MailAPI?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/49dbd566e9d8528662f4/maintainability)](https://codeclimate.com/github/bekeplar/EPIC-MailAPI/maintainability)
 
@@ -13,7 +13,7 @@ As EPIC Andelans who work towards advancing human potential and giv2ng back to t
 - Users can login.
 - Users can create groups.
 - Users can send a message to indiv2duals.
-- Users can v2ew their inbox and read messages.
+- Users can v1ew their inbox and read messages.
 - Users can retract sent messages.
 - Users can save an email as draft and send it later or delete it.
 
