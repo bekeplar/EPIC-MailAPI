@@ -3,6 +3,7 @@ from api.views.user import users_bp
 from instance.config import app_config
 from api.views.message import messages_bp
 from api.views.group import group_bp
+from flask_cors import CORS
 
 
 def create_app(config_name):
@@ -10,6 +11,7 @@ def create_app(config_name):
     """Set up Flask application in function in relation to config"""
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config[config_name])
+    CORS(app)
     app.config.from_pyfile('config.py')
     app.register_blueprint(users_bp)
     app.register_blueprint(messages_bp)
