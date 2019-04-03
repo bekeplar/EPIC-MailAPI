@@ -26,7 +26,6 @@ class MessagesController():
         new_message_data = {
             "subject": data.get("subject"),
             "message": data.get("message"),
-            "parent_message_id": data.get("ParentMessageID"),
             "sender_status": "sent",
             "reciever_status": "unread",
             "receiver_id": data.get("receiver"),
