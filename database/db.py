@@ -56,7 +56,7 @@ class DatabaseConnection:
                 message TEXT NOT NULL,
                 sender_status VARCHAR(50) NOT NULL,
                 receiver_status VARCHAR(50) NOT NULL,
-                parent_message_id INT NOT NULL,
+                parent_message_id INT DEFAULT 0,
                 created_on  DATE DEFAULT CURRENT_TIMESTAMP,
                 sender_id INT NOT NULL,
                 receiver_id INT NOT NULL
@@ -69,7 +69,7 @@ class DatabaseConnection:
                 message TEXT NOT NULL,
                 sender_status VARCHAR(50) NOT NULL,
                 receiver_status VARCHAR(50) NOT NULL,
-                parent_message_id INT NOT NULL,
+                parent_message_id INT DEFAULT 0,
                 created_on  DATE DEFAULT CURRENT_TIMESTAMP,
                 sender_id INT NOT NULL,
                 group_id INT NOT NULL
@@ -178,16 +178,15 @@ class DatabaseConnection:
         receiver_status = "unread"
         receiver_id = kwargs.get("receiver_id")
         sender_id = kwargs.get("user_id")
-        parent_message_id = kwargs.get("parent_message_id")
         created_on = date.today()
 
         # sql command for inserting a new message in the database
         sql = (
             "INSERT INTO messages ("
-            "subject, message, sender_status, receiver_status, receiver_id, sender_id, parent_message_id, created_on"
+            "subject, message, sender_status, receiver_status, receiver_id, sender_id, created_on"
             ")VALUES ("
             f"'{subject}', '{message}','{sender_status}', '{receiver_status}',"
-            f"'{receiver_id}', '{sender_id}', '{parent_message_id}' ,'{created_on}') returning "
+            f"'{receiver_id}', '{sender_id}' ,'{created_on}') returning "
             "message_id,subject as subject,"
             "message as message, "
             "sender_status as sender_status,"
@@ -209,16 +208,15 @@ class DatabaseConnection:
         receiver_status = "unread"
         group_id = kwargs.get("group_id")
         sender_id = kwargs.get("user_id")
-        parent_message_id = kwargs.get("parent_message_id")
         created_on = date.today()
 
         # sql command for inserting a new message in the database
         sql = (
             "INSERT INTO group_messages ("
-            "subject, message, sender_status, receiver_status, group_id, sender_id, parent_message_id, created_on"
+            "subject, message, sender_status, receiver_status, group_id, sender_id, created_on"
             ")VALUES ("
             f"'{subject}', '{message}','{sender_status}', '{receiver_status}',"
-            f"'{group_id}', '{sender_id}', '{parent_message_id}' ,'{created_on}') returning "
+            f"'{group_id}', '{sender_id}', '{created_on}') returning "
             "message_id,subject as subject,"
             "message as message, "
             "sender_status as sender_status,"

@@ -112,12 +112,8 @@ class GroupController():
                 jsonify(
                     {
                         "status": 200,
-                        "data": [
-                            {
-                                "groups": results,
-                                "success": "The following are your groups"
-                            }
-                        ],
+                        "data":  results,
+                        "success": "The following are your groups"
                     }
                 ),
                 200,
@@ -264,7 +260,6 @@ class GroupController():
         new_message_data = {
             "subject": data.get("subject"),
             "message": data.get("message"),
-            "parent_message_id": data.get("ParentMessageID"),
             "sender_status": "sent",
             "reciever_status": "unread",
             "group_id": data.get("groupId"),
