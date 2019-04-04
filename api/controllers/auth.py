@@ -4,7 +4,6 @@ from api.utilitiez.auth_token import (
     encode_token)
 from api.utilitiez.validation import validate_new_user
 from database.db import DatabaseConnection
-from api.models.user import User
 
 db = DatabaseConnection()
 

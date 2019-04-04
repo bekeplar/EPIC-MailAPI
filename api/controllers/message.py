@@ -1,5 +1,4 @@
-from flask import Blueprint, jsonify, json, request
-from api.models.message import Message
+from flask import jsonify, request
 from database.db import DatabaseConnection
 from api.utilitiez.auth_token import get_current_identity
 from api.utilitiez.validation import validate_new_message
@@ -26,7 +25,6 @@ class MessagesController():
         new_message_data = {
             "subject": data.get("subject"),
             "message": data.get("message"),
-            "parent_message_id": data.get("ParentMessageID"),
             "sender_status": "sent",
             "reciever_status": "unread",
             "receiver_id": data.get("reciever"),
