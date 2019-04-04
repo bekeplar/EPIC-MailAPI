@@ -67,7 +67,6 @@ class DatabaseConnection:
                 is_admin BOOLEAN DEFAULT TRUE
             );"""
 
-
             create_group_members_table = """CREATE TABLE IF NOT EXISTS group_members
             (
                 group_id SERIAL NOT NULL PRIMARY KEY,
@@ -91,9 +90,9 @@ class DatabaseConnection:
             print(e)
     
     def database_connection(self, database_name):
-            """Function for connecting to appropriate database"""
-            return psycopg2.connect(dbname='dcej6qn3n0s4fl', user='cgdicyqboxiwwq',
-            host='ec2-54-225-129-101.compute-1.amazonaws.com', password='1d882aa397d300a862a0045b854aaf8d384ffed5813f64f6c456bc0cc930045c')
+        """Function for connecting to appropriate database"""
+        return psycopg2.connect(dbname='dcej6qn3n0s4fl', user='cgdicyqboxiwwq',
+        host='ec2-54-225-129-101.compute-1.amazonaws.com', password='1d882aa397d300a862a0045b854aaf8d384ffed5813f64f6c456bc0cc930045c')
 
     
     def insert_user(self, **kwargs):
@@ -205,7 +204,6 @@ class DatabaseConnection:
             error["message"] = duplicate_message
         return error
 
-
     def get_message_record(self, msg_id, owner_id):
         """Method to return a given message by id"""
         sql = (
@@ -214,7 +212,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
-
 
     def get_inbox_record(self, owner_id, msg_id):
         """Method to delete a given message from user inbox by id."""
@@ -225,7 +222,6 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-
     def get_sent_messages(self, owner_id):
         """Function which returns all sent messages by a user."""
         sql = (
@@ -233,7 +229,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
-
 
     def get_all_received_messages(self, owner_id):
         """Function for getting all received messages."""
@@ -243,7 +238,6 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-
     def delete_inbox_mail(self, msg_id, user_id):
         """Function to delete a user's inbox mail."""
         sql = (
@@ -252,7 +246,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
-
 
     def insert_new_group(self, **kwargs):
         """A method for adding a new group to the database"""
@@ -270,7 +263,6 @@ class DatabaseConnection:
         new_user = self.cursor_database.fetchone()
         return new_user
 
-
     def check_duplicate_group(self, group_name):
         """Testing for uniqueness of my created group."""
         exists_query = (
@@ -284,7 +276,6 @@ class DatabaseConnection:
             error["group_name"] = duplicate_group
         return error
 
-
     def delete_group(self, grp_id):
         """Function for deleting a group."""
         sql = (
@@ -292,7 +283,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
-
 
     def get_group_record(self, grp_id):
         """Function for fetching a specific group ny its id."""
@@ -302,7 +292,6 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-
     def get_all_groups(self):
         """Method to all groups"""
         sql = (
@@ -310,7 +299,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
-
 
     def update_group_name(self, grp_id, grp_name):
         """Method for updating a user's group name."""
@@ -320,7 +308,6 @@ class DatabaseConnection:
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
-
 
     def drop_table(self, table_name):
             """
