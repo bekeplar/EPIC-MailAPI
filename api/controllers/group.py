@@ -96,7 +96,6 @@ class GroupController():
 
         return response
 
-    
     def fetch_groups(self):
         """ 
         Logic for getting all groups.
@@ -108,12 +107,8 @@ class GroupController():
                 jsonify(
                     {
                         "status": 200,
-                        "data": [
-                            {
-                                "groups": results,
-                                "success": "The following are your groups"
-                            }
-                        ],
+                        "data": results,
+                        "success": "The following are your groups"
                     }
                 ),
                 200,
