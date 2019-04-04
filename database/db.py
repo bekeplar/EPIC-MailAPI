@@ -95,8 +95,8 @@ class DatabaseConnection:
 
     def database_connection(self, database_name):
         """Function for connecting to appropriate database"""
-        return psycopg2.connect(dbname='dcej6qn3n0s4fl', user='cgdicyqboxiwwq',
-        host='ec2-54-225-129-101.compute-1.amazonaws.com', password='1d882aa397d300a862a0045b854aaf8d384ffed5813f64f6c456bc0cc930045c')
+        return psycopg2.connect(dbname='dft9f3mv66m6tq', user='uqtgtyukhnwbyw',
+        host='ec2-23-21-136-232.compute-1.amazonaws.com', password='d0335d58db299fc68d1214984bfb2002646fdefd7cd7f67ac411bc84f5a9c398')
 
     
     def insert_user(self, **kwargs):
