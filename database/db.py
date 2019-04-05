@@ -59,7 +59,7 @@ class DatabaseConnection:
                 parent_message_id INT DEFAULT 0,
                 created_on  DATE DEFAULT CURRENT_TIMESTAMP,
                 sender_id INT NOT NULL,
-                receiver_id INT NOT NULL
+                reciever TEXT NOT NULL
             );"""
 
             create_group_messages_table = """CREATE TABLE IF NOT EXISTS group_messages
@@ -107,8 +107,8 @@ class DatabaseConnection:
 
     def database_connection(self, database_name):
         """Function for connecting to appropriate database"""
-        return psycopg2.connect(dbname='dcej6qn3n0s4fl', user='cgdicyqboxiwwq',
-        host='ec2-54-225-129-101.compute-1.amazonaws.com', password='1d882aa397d300a862a0045b854aaf8d384ffed5813f64f6c456bc0cc930045c')
+        return psycopg2.connect(dbname='dft9f3mv66m6tq', user='uqtgtyukhnwbyw',
+        host='ec2-23-21-136-232.compute-1.amazonaws.com', password='d0335d58db299fc68d1214984bfb2002646fdefd7cd7f67ac411bc84f5a9c398')
 
     def insert_user(self, **kwargs):
         """User class method for adding new user to the users database"""
@@ -177,17 +177,17 @@ class DatabaseConnection:
         message = kwargs.get("message")
         sender_status = "sent"
         receiver_status = "unread"
-        receiver_id = kwargs.get("receiver_id")
+        reciever = kwargs.get("reciever")
         sender_id = kwargs.get("user_id")
         created_on = date.today()
 
         # sql command for inserting a new message in the database
         sql = (
             "INSERT INTO messages ("
-            "subject, message, sender_status, receiver_status, receiver_id, sender_id, created_on"
+            "subject, message, sender_status, receiver_status, reciever, sender_id, created_on"
             ")VALUES ("
             f"'{subject}', '{message}','{sender_status}', '{receiver_status}',"
-            f"'{receiver_id}', '{sender_id}' ,'{created_on}') returning "
+            f"'{reciever}', '{sender_id}' ,'{created_on}') returning "
             "message_id,subject as subject,"
             "message as message, "
             "sender_status as sender_status,"
@@ -195,7 +195,7 @@ class DatabaseConnection:
             "sender_id as sender_id, "
             "parent_message_id as parent_message_id, "
             "created_on as created_on, "
-            "receiver_id as receiver_id;"
+            "reciever as reciever;"
         )
         self.cursor_database.execute(sql)
         new_message = self.cursor_database.fetchone()
@@ -281,10 +281,10 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
 
-    def get_user(self, owner_id):
+    def get_user(self, owner):
         """Function for checking for an existing user."""
         sql = (
-            f"SELECT user_id FROM users WHERE user_id='{owner_id}';"
+            f"SELECT email FROM users WHERE email='{owner}';"
         )
         self.cursor_database.execute(sql)
         user_in_db = self.cursor_database.fetchone()

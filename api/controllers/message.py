@@ -27,12 +27,12 @@ class MessagesController():
             "subject": data.get("subject"),
             "message": data.get("message"),
             "sender_status": "sent",
-            "reciever_status": "unread",
-            "receiver_id": data.get("receiver"),
+            "receiver_status": "unread",
+            "reciever": data.get("reciever"),
         }
 
         not_valid = validate_new_message(**new_message_data)
-        known_user = db.get_user(data.get("receiver"))
+        known_user = db.get_user(data.get("reciever"))
         response = None
         if not known_user:
             response = (
