@@ -47,7 +47,7 @@ class MessagesController():
         elif not db.check_duplicate_message(
                 new_message_data["subject"], new_message_data["subject"],
         ):
-            new_message_data["user_id"] = get_current_identity()
+            new_message_data["user_id"] = get_current_identity()["id"]
             new_message = db.create_message(**new_message_data)
 
             response = (
