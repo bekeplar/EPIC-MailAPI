@@ -110,6 +110,7 @@ class DatabaseConnection:
         return psycopg2.connect(dbname='dft9f3mv66m6tq', user='uqtgtyukhnwbyw',
         host='ec2-23-21-136-232.compute-1.amazonaws.com', password='d0335d58db299fc68d1214984bfb2002646fdefd7cd7f67ac411bc84f5a9c398')
 
+
     def insert_user(self, **kwargs):
         """User class method for adding new user to the users database"""
         first_name = kwargs["first_name"]
@@ -167,8 +168,9 @@ class DatabaseConnection:
                 )
         ):
             id = user_details.get("user_id")
+            email=user_details.get("email")
 
-            return id
+            return {"id":id, 'email':email}
         return None
 
     def create_message(self, **kwargs):
@@ -247,19 +249,19 @@ class DatabaseConnection:
             error["message"] = duplicate_message
         return error
 
-    def get_message_record(self, msg_id, owner_id):
+    def get_message_record(self, msg_id, owner):
         """Method to return a given message by id"""
         sql = (
             f"SELECT * FROM messages WHERE message_id='{msg_id}' \
-                    AND receiver_id='{owner_id}';"
+                    AND reciever='{owner}';"
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-    def get_inbox_record(self, owner_id, msg_id):
+    def get_inbox_record(self, owner, msg_id):
         """Method to delete a given message from user inbox by id."""
         sql = (
-            f"SELECT * FROM messages WHERE receiver_id='{owner_id}' \
+            f"SELECT * FROM messages WHERE reciever='{owner}' \
                     AND message_id='{msg_id}';"
         )
         self.cursor_database.execute(sql)
@@ -273,10 +275,10 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
 
-    def get_all_received_messages(self, owner_id):
+    def get_all_received_messages(self, owner):
         """Function for getting all received messages."""
         sql = (
-            f"SELECT * FROM messages WHERE receiver_id='{owner_id}';"
+            f"SELECT * FROM messages WHERE reciever='{owner}';"
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
@@ -309,10 +311,10 @@ class DatabaseConnection:
         return member_in_grp if True else False
 
 
-    def delete_inbox_mail(self, msg_id, user_id):
+    def delete_inbox_mail(self, msg_id, user):
         """Function to delete a user's inbox mail."""
         sql = (
-            f"DELETE FROM messages WHERE receiver_id='{user_id}' "
+            f"DELETE FROM messages WHERE reciever='{user}' "
             f"AND message_id='{msg_id}' returning *;"
         )
         self.cursor_database.execute(sql)

@@ -80,15 +80,15 @@ class UserController():
             user_password = user_credentials["password"]
 
             # submit user details as required
-            user_id = db.is_valid_credentials(user_email, user_password)
-            if user_id:
+            data = db.is_valid_credentials(user_email, user_password)
+            if data:
                 response = (
                     jsonify(
                         {
                             "status": 200,
                             "data": [
                                 {
-                                    "token": encode_token(user_id),
+                                    "token": encode_token(data["id"], data["email"]),
                                     "success": f"{user_email} logged in successfully",
                                 }
                             ],

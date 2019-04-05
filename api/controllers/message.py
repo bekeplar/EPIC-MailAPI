@@ -74,8 +74,8 @@ class MessagesController():
         return response
 
     def get_a_message(self, record_id):
-        user_id = get_current_identity()
-        results = db.get_message_record(record_id, user_id)
+        data = get_current_identity()
+        results = db.get_message_record(record_id, data["email"])
         response = None
         if results and "error" in results:
             response = (
@@ -104,9 +104,9 @@ class MessagesController():
         """ 
         deleting an email from a user's inbox.
         """
-        user_id = get_current_identity()
-        results = db.get_message_record(inbox_mail_id, user_id)
-        delete_inbox = db.delete_inbox_mail(inbox_mail_id, user_id
+        data = get_current_identity()
+        results = db.get_message_record(inbox_mail_id, data["email"])
+        delete_inbox = db.delete_inbox_mail(inbox_mail_id, data["email"]
         )
         response = None
         if results:
@@ -139,7 +139,7 @@ class MessagesController():
         Returns all users sent messages.
         """
         sender_id = get_current_identity()
-        collection = db.get_sent_messages(sender_id)
+        collection = db.get_sent_messages(sender_id["id"])
         response = None
         if collection:
             response = (
@@ -159,7 +159,7 @@ class MessagesController():
 
     def all_received_emails(self):
         receiver_id = get_current_identity()
-        inbox = db.get_all_received_messages(receiver_id)
+        inbox = db.get_all_received_messages(receiver_id["email"])
         response = None
 
         if inbox:
