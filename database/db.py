@@ -329,8 +329,9 @@ class DatabaseConnection:
         # Querry for adding a new group into the groups database
         sql = (
             "INSERT INTO groups ("
+            "created_by,"
             "group_name)VALUES ("
-            f"'{group_name}') returning "
+            f"'{group_name}', '{created_by}') returning "
             "group_id, created_by, group_name as groupname,"
             "is_admin as is_admin"
         )
