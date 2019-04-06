@@ -58,7 +58,7 @@ class DatabaseConnection:
                 receiver_status VARCHAR(50) NOT NULL,
                 parent_message_id INT DEFAULT 0,
                 created_on  DATE DEFAULT CURRENT_TIMESTAMP,
-                sender_id INT NOT NULL,
+                sender TEXT NOT NULL,
                 reciever TEXT NOT NULL
             );"""
 
@@ -79,6 +79,7 @@ class DatabaseConnection:
             (
                 group_id SERIAL NOT NULL PRIMARY KEY,
                 group_name VARCHAR(25) NOT NULL,
+                created_by TEXT NOT NULL,
                 is_admin BOOLEAN DEFAULT TRUE
             );"""
 
@@ -180,21 +181,21 @@ class DatabaseConnection:
         sender_status = "sent"
         receiver_status = "unread"
         reciever = kwargs.get("reciever")
-        sender_id = kwargs.get("user_id")
+        sender = kwargs.get("user_id")
         created_on = date.today()
 
         # sql command for inserting a new message in the database
         sql = (
             "INSERT INTO messages ("
-            "subject, message, sender_status, receiver_status, reciever, sender_id, created_on"
+            "subject, message, sender_status, receiver_status, reciever, sender, created_on"
             ")VALUES ("
             f"'{subject}', '{message}','{sender_status}', '{receiver_status}',"
-            f"'{reciever}', '{sender_id}' ,'{created_on}') returning "
+            f"'{reciever}', '{sender}' ,'{created_on}') returning "
             "message_id,subject as subject,"
             "message as message, "
             "sender_status as sender_status,"
             "receiver_status as receiver_status, "
-            "sender_id as sender_id, "
+            "sender as sender, "
             "parent_message_id as parent_message_id, "
             "created_on as created_on, "
             "reciever as reciever;"
@@ -267,10 +268,10 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-    def get_sent_messages(self, owner_id):
+    def get_sent_messages(self, owner):
         """Function which returns all sent messages by a user."""
         sql = (
-            f"SELECT * FROM messages WHERE sender_id='{owner_id}';"
+            f"SELECT * FROM messages WHERE sender='{owner}';"
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
@@ -323,13 +324,14 @@ class DatabaseConnection:
     def insert_new_group(self, **kwargs):
         """A method for adding a new group to the database"""
         group_name = kwargs["group_name"]
+        created_by = kwargs["user_id"]
 
         # Querry for adding a new group into the groups database
         sql = (
             "INSERT INTO groups ("
             "group_name)VALUES ("
             f"'{group_name}') returning "
-            "group_id, group_name as groupname,"
+            "group_id, created_by, group_name as groupname,"
             "is_admin as is_admin"
         )
         self.cursor_database.execute(sql)
@@ -393,10 +395,10 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchone()
 
-    def get_all_groups(self):
+    def get_all_groups(self, owner):
         """Method to all groups"""
         sql = (
-            f"SELECT * FROM groups;"
+            f"SELECT * FROM groups WHERE created_by='{owner}' ;"
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()

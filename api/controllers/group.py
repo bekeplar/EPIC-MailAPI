@@ -38,6 +38,7 @@ class GroupController():
         elif not db.check_duplicate_group(
                 group_data["group_name"],
         ):
+            group_data["user_id"] = get_current_identity()["email"]
             created_group = db.insert_new_group(**group_data)
 
             response = (
@@ -105,7 +106,8 @@ class GroupController():
         """ 
         Logic for getting all groups.
         """
-        results = db.get_all_groups()
+        data = get_current_identity()
+        results = db.get_all_groups(data["email"])
         response = None
         if results:
             response = (

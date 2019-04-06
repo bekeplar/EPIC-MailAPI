@@ -44,10 +44,7 @@ class MessagesController():
             )  
         elif not_valid:
             response = not_valid 
-        elif not db.check_duplicate_message(
-                new_message_data["subject"], new_message_data["subject"],
-        ):
-            new_message_data["user_id"] = get_current_identity()["id"]
+            new_message_data["user_id"] = get_current_identity()["email"]
             new_message = db.create_message(**new_message_data)
 
             response = (
@@ -138,8 +135,8 @@ class MessagesController():
         """
         Returns all users sent messages.
         """
-        sender_id = get_current_identity()
-        collection = db.get_sent_messages(sender_id["id"])
+        sender = get_current_identity()
+        collection = db.get_sent_messages(sender["email"])
         response = None
         if collection:
             response = (
