@@ -44,6 +44,8 @@ class MessagesController():
             )  
         elif not_valid:
             response = not_valid 
+           
+        else:
             new_message_data["user_id"] = get_current_identity()["email"]
             new_message = db.create_message(**new_message_data)
 
@@ -60,13 +62,6 @@ class MessagesController():
                     }
                 ),
                 201,
-            )
-        else:
-            response = (
-                jsonify(
-                    {"status": 409, "error": "Message already sent"}
-                ),
-                409,
             )
         return response
 
