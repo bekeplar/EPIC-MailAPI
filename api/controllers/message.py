@@ -44,9 +44,9 @@ class MessagesController():
             )  
         elif not_valid:
             response = not_valid 
-        elif not db.check_duplicate_message(
-                new_message_data["subject"], new_message_data["subject"],
-        ):
+        
+            
+        else:
             new_message_data["user_id"] = get_current_identity()["id"]
             new_message = db.create_message(**new_message_data)
 
@@ -63,13 +63,6 @@ class MessagesController():
                     }
                 ),
                 201,
-            )
-        else:
-            response = (
-                jsonify(
-                    {"status": 409, "error": "Message already sent"}
-                ),
-                409,
             )
         return response
 
