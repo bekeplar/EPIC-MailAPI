@@ -33,12 +33,12 @@ class BaseTest(unittest.TestCase):
         self.message_data = {
             "subject": "My Andela Application",
             "message": "Joseph",
-            "receiver": "1"
+            "reciever": "bekeplar@gmail.com"
         }
 
         self.group_message_data = {
             "subject": "My Andela Application",
-            "message": "Joseph",
+            "message": "Joseph the baddy",
             "groupId": "1"
         }
 
@@ -52,7 +52,8 @@ class BaseTest(unittest.TestCase):
         }
 
         self.user_id = 1
-        self.token = encode_token(self.user_id)
+        self.user_email = 'bekeplar@gmail.com'
+        self.token = encode_token(self.user_id, self.user_email)
         self.data = {}
         self.member = 2
 

@@ -6,8 +6,6 @@ from datetime import date
 from werkzeug.security import generate_password_hash, check_password_hash
 from api.utilitiez.auth_token import get_current_identity
 from api.utilitiez.responses import (
-    duplicate_subject,
-    duplicate_message,
     duplicate_group,
     duplicate_member,
 )
@@ -71,7 +69,7 @@ class DatabaseConnection:
                 receiver_status VARCHAR(50) NOT NULL,
                 parent_message_id INT DEFAULT 0,
                 created_on  DATE DEFAULT CURRENT_TIMESTAMP,
-                sender_id INT NOT NULL,
+                sender TEXT NOT NULL,
                 group_id INT NOT NULL
             );"""
 
@@ -106,10 +104,15 @@ class DatabaseConnection:
         except (Exception, psycopg2.Error) as e:
             print(e)
 
+    # def database_connection(self, database_name):
+    #     """Function for connecting to appropriate database"""
+    #     return psycopg2.connect(dbname='dft9f3mv66m6tq', user='uqtgtyukhnwbyw',
+    #     host='ec2-23-21-136-232.compute-1.amazonaws.com', password='d0335d58db299fc68d1214984bfb2002646fdefd7cd7f67ac411bc84f5a9c398')
+
     def database_connection(self, database_name):
         """Function for connecting to appropriate database"""
-        return psycopg2.connect(dbname='dft9f3mv66m6tq', user='uqtgtyukhnwbyw',
-        host='ec2-23-21-136-232.compute-1.amazonaws.com', password='d0335d58db299fc68d1214984bfb2002646fdefd7cd7f67ac411bc84f5a9c398')
+        return psycopg2.connect(dbname='postgres', user='postgres',
+        host='localhost', password='bekeplar')
 
 
     def insert_user(self, **kwargs):
@@ -210,22 +213,22 @@ class DatabaseConnection:
         message = kwargs.get("message")
         sender_status = "sent"
         receiver_status = "unread"
-        group_id = kwargs.get("group_id")
-        sender_id = kwargs.get("user_id")
+        group_id = kwargs.get("groupId")
+        sender = kwargs.get("user_id")
         created_on = date.today()
 
         # sql command for inserting a new message in the database
         sql = (
             "INSERT INTO group_messages ("
-            "subject, message, sender_status, receiver_status, group_id, sender_id, created_on"
+            "subject, message, sender_status, receiver_status, group_id, sender, created_on"
             ")VALUES ("
             f"'{subject}', '{message}','{sender_status}', '{receiver_status}',"
-            f"'{group_id}', '{sender_id}', '{created_on}') returning "
+            f"'{group_id}', '{sender}', '{created_on}') returning "
             "message_id,subject as subject,"
             "message as message, "
             "sender_status as sender_status,"
             "receiver_status as receiver_status, "
-            "sender_id as sender_id, "
+            "sender as sender, "
             "parent_message_id as parent_message_id, "
             "created_on as created_on, "
             "group_id as group_id;"
@@ -233,22 +236,6 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         new_message = self.cursor_database.fetchone()
         return new_message
-
-    def check_duplicate_message(self, subject, message):
-        """Testing for uniqueness of a message."""
-        exists_query = (
-            "SELECT subject, Message from messages where "
-            f"subject ='{subject}' OR message='{message}';"
-        )
-        self.cursor_database.execute(exists_query)
-        message_exists = self.cursor_database.fetchone()
-        error = {}
-        if message_exists and message_exists.get("subject") == subject:
-            error["subject"] = duplicate_subject
-
-        if message_exists and message_exists.get("message") == message:
-            error["message"] = duplicate_message
-        return error
 
     def get_message_record(self, msg_id, owner):
         """Method to return a given message by id"""
@@ -293,19 +280,19 @@ class DatabaseConnection:
         user_in_db = self.cursor_database.fetchone()
         return user_in_db if True else False
 
-    def get_group(self, grp_id):
+    def get_group(self, grp):
         """Function for checking for an existing group."""
         sql = (
-            f"SELECT group_id FROM groups WHERE group_id='{grp_id}';"
+            f"SELECT group_name FROM groups WHERE group_name='{grp}';"
         )
         self.cursor_database.execute(sql)
         group_in_db = self.cursor_database.fetchone()
         return group_in_db if True else False
 
-    def get_group_member(self, sender_id):
+    def get_group_member(self, sender):
         """Function for checking for an existing group member."""
         sql = (
-            f"SELECT group_id FROM group_members WHERE user_id='{sender_id}';"
+            f"SELECT group_id FROM group_members WHERE user_id='{sender}';"
         )
         self.cursor_database.execute(sql)
         member_in_grp = self.cursor_database.fetchone()
@@ -329,10 +316,11 @@ class DatabaseConnection:
         # Querry for adding a new group into the groups database
         sql = (
             "INSERT INTO groups ("
-            "created_by,"
-            "group_name)VALUES ("
+            "group_name,"
+            "created_by)VALUES ("
             f"'{group_name}', '{created_by}') returning "
-            "group_id, created_by, group_name as groupname,"
+            "group_id, created_by as created_by," 
+            "group_name as groupname,"
             "is_admin as is_admin"
         )
         self.cursor_database.execute(sql)
@@ -367,16 +355,16 @@ class DatabaseConnection:
             error["group_name"] = duplicate_group
         return error
 
-    def check_member_exists(self, sub_id):
+    def check_member_exists(self, member):
         """Testing for uniqueness of a group memeber"""
         exists_query = (
             "SELECT * from group_members where "
-            f"user_id ='{sub_id}';"
+            f"user_id ='{member}';"
         )
         self.cursor_database.execute(exists_query)
         member_exists = self.cursor_database.fetchone()
         error = {}
-        if member_exists and member_exists.get("user_id") == sub_id:
+        if member_exists and member_exists.get("user_id") == member:
             error["user_id"] = "Member already added"
         return error
 
@@ -404,11 +392,13 @@ class DatabaseConnection:
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
 
-    def update_group_name(self, grp_id, grp_name):
+    def update_group_name(self, grp_id, grp_name, owner):
         """Method for updating a user's group name."""
         sql = (
             f"UPDATE groups SET group_name='{grp_name}' "
-            f"WHERE group_id='{grp_id}' returning group_id , group_name;"
+            f"WHERE group_id='{grp_id}'"
+            f"AND created_by='{owner}' "
+            "returning *;"
         )
         self.cursor_database.execute(sql)
         return self.cursor_database.fetchall()
