@@ -81,7 +81,7 @@ function login() {
                 localStorage.setItem("token", token);
 
                 window.setTimeout(function () {
-                    window.location.replace("../user_dashboard.html");
+                    window.location.replace("/user_dashboard.html");
                 }, 1000);
 
             }

@@ -14,7 +14,7 @@ function getGroups() {
 
             if (data.status === 401) {
                 window.setTimeout(function () {
-                    window.location.replace("../index.html");
+                    window.location.replace("/");
                 }, 5000);
 
 

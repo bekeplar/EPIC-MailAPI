@@ -14,7 +14,7 @@ function getMessage() {
         .then((data) => {
             if (data.status === 401) {
                 window.setTimeout(function () {
-                    window.location.replace("../index.html");
+                    window.location.replace("/");
                 }, 1000);
 
             } else if (data.status === 200) {

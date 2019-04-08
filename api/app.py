@@ -25,17 +25,21 @@ def create_app(config_name):
     def signup():
         return render_template("signup.html")
 
-    @app.route("/components/user_dashboard.html", methods=["GET"])
+    @app.route("/reset.html", methods=["GET"])
+    def reset():
+        return render_template("reset.html")
+
+    @app.route("/user_dashboard.html", methods=["GET"])
     def messages():
-        return render_template("./components/user_dashboard.html")
+        return render_template("user_dashboard.html")
 
-    @app.route("/components/group.html", methods=["GET"])
+    @app.route("/group.html", methods=["GET"])
     def groups():
-        return render_template("./components/group.html")
+        return render_template("group.html")
 
-    @app.route("/components/Admin.html", methods=["GET"])
+    @app.route("/Admin.html", methods=["GET"])
     def members():
-        return render_template("./components/Admin.html")
+        return render_template("Admin.html")
 
 
     @app.errorhandler(400)

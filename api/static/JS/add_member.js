@@ -59,13 +59,13 @@ function addMember() {
                 submitProgress.style.display = 'hide';
                 displayError(data.error);
                 window.setTimeout(function () {
-                    window.location.replace("./components/Admin.html");
+                    window.location.replace("/Admin.html");
                 }, 5000);
 
             } else if (data.status === 401) {
                 displayError(data.error);
                 window.setTimeout(function () {
-                    window.location.replace("../components/index.html");
+                    window.location.replace("/");
                 }, 5000);
 
             } else if (data.status === 201) {
@@ -76,7 +76,7 @@ function addMember() {
                 document.getElementById('success_msg').style.display = "block";
                 document.getElementById('success_msg').innerHTML = "member added Successfully!";
                 window.setTimeout(function () {
-                    window.location.replace("../templates/group.html");
+                    window.location.replace("/group.html");
                 }, 5000);;
 
             }

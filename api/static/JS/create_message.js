@@ -85,7 +85,16 @@ function createMessage() {
             } else if (data.status === 401) {
                 displayError(data.error);
                 window.setTimeout(function () {
-                    window.location.replace("../index.html");
+                    window.location.replace("/");
+                }, 5000);
+
+            } else if (data.status === 404) {
+                submitProgress.style.display = 'hide';
+                displayError(data.error);
+                document.getElementById("error").style.display = "block";
+                document.getElementById("error").innerHTML = "Reciever not a registered user.";
+                window.setTimeout(function () {
+                    window.location.replace("/user_dashboard.html");
                 }, 5000);
 
 
@@ -97,7 +106,7 @@ function createMessage() {
                 document.getElementById('success_msg').style.display = "block";
                 document.getElementById('success_msg').innerHTML = "message sent Successfully!";
                 window.setTimeout(function () {
-                    window.location.replace("./user_dashboard.html");
+                    window.location.replace("/user_dashboard.html");
                 }, 1000);;
 
             }

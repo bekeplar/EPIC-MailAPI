@@ -18,7 +18,7 @@ function deleteMessage() {
                 document.getElementById('getMessages').innerHTML = data["data"][0].success;
 
                 alert(data["data"][0].success);
-                window.location.replace("../components/user_dashboard.html?type=".concat(message));
+                window.location.replace("/user_dashboard.html?type=".concat(message));
             } else if (data.status === 400 || data.status === 404) {
                 alert(data.error)
             } else if (data.status === 401) {

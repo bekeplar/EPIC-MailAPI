@@ -130,7 +130,7 @@ function signUpAccount() {
                 document.getElementById("message").style.display = "block";
                 document.getElementById("message").innerHTML = data["data"][0].success;
                 window.setTimeout(function () {
-                    window.location.replace("../index.html");
+                    window.location.replace("/");
                 }, 3000);
 
             }

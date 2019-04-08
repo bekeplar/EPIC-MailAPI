@@ -13,7 +13,7 @@ function getMessages() {
         .then((data) => {
             if (data.status === 401) {
                 window.setTimeout(function () {
-                    window.location.replace("../index.html");
+                    window.location.replace("/");
                 }, 1000);
 
             console.log(data.data.subject)
