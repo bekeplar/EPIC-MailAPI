@@ -1,3 +1,4 @@
+"""Parent file for all testcases"""
 import unittest
 import json
 from api.app import create_app
@@ -10,7 +11,7 @@ from api.models.message import Message
 
 
 class BaseTest(unittest.TestCase):
-
+    
     def setUp(self):
         """initializing method for a unit test"""
         self.app = create_app("Testing")
