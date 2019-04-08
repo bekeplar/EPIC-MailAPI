@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, Blueprint
+from flask import Flask, jsonify, Blueprint, render_template
 from api.views.user import users_bp
 from instance.config import app_config
 from api.views.message import messages_bp
@@ -17,12 +17,26 @@ def create_app(config_name):
     app.register_blueprint(group_bp)
     CORS(app)
 
-    @app.route("/")
+    @app.route("/", methods=["GET"])
     def _home():
-        return (
-            jsonify({"message": "Welcome to Epic-Email App", "status": 200}),
-            200,
-        )
+        return render_template("index.html")
+
+    @app.route("/signup.html", methods=["GET"])
+    def signup():
+        return render_template("signup.html")
+
+    @app.route("/components/user_dashboard.html", methods=["GET"])
+    def messages():
+        return render_template("./components/user_dashboard.html")
+
+    @app.route("/components/group.html", methods=["GET"])
+    def groups():
+        return render_template("./components/group.html")
+
+    @app.route("/components/Admin.html", methods=["GET"])
+    def members():
+        return render_template("./components/Admin.html")
+
 
     @app.errorhandler(400)
     def _bad_request(e):

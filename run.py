@@ -6,4 +6,4 @@ from api.app import create_app
 app = create_app("Production")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=8080)

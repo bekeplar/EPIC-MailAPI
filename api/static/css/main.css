@@ -1,0 +1,619 @@
+body {font-family: Arial, Helvetica, sans-serif;}
+
+header, h1{
+  padding-top: .3%;
+  font-size: 180%;
+  padding-left: 2%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif 
+}
+
+h2{
+    font-size: 120;
+    color: black;
+}
+
+/* Set a style for the submit button */
+#button .btn {
+  background-color:dodgerblue;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+
+h3{
+    color: blue;
+    text-align: center;
+    font-weight: italic; 
+    text-shadow: #555;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 140%;
+
+}
+
+
+#la-fonix{
+  max-width:500px;
+  margin:auto;
+  padding-bottom: 5%;
+  margin-bottom: 5%;
+}
+
+#la-fonia{
+  max-width:500px;
+  margin:auto;
+  padding-bottom: 5%;
+}
+
+.container{
+  background-color:#f1f1f1;
+}
+
+#la-fonic{
+  max-width:500px;
+  margin:auto;
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color:blue;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 40%;
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.ma-ma-mia{
+  color: white;
+}
+
+a{
+  text-decoration: none;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: blue;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+  text-align: center;
+  margin: 24px 0 12px 0;
+  position: relative;
+}
+
+
+
+.container {
+  padding: 16px;
+}
+
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+.modal {
+  position: absolute;
+  /* z-index: 1; Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+  padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; 
+  border: 1px solid #888;
+  width: 80%; 
+}
+
+/* The Close Button (x) */
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #000;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: red;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+
+.input-container {
+    display: -ms-flexbox; 
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .icon {
+    padding: 10px;
+    background: dodgerblue;
+    color: white;
+    min-width: 50px;
+    text-align: center;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+  }
+
+  .main_menu {
+    height: 100%;
+    width: 13%;
+    position: fixed;
+    left: 0;
+    margin-left: 2%;
+}
+
+
+.main_menu a {
+    text-decoration: none;
+    display: block;
+    font-size: 135%;
+    padding-bottom: 2%;
+    border-radius: 5px;
+    padding-left: 6%;
+    padding-right: 2%; 
+    background-color: blue;
+    margin-top: 10px;
+    color: white;
+    text-align: center;
+}
+  
+  .input-field:focus {
+    border: 2px solid dodgerblue;
+  }
+  
+   
+  .btn:hover {
+    opacity: 1;
+  }
+
+  <!-- body {
+    margin: 0;
+    min-width: 250px;
+  } -->
+  
+
+  * {
+    box-sizing: border-box;
+  }
+  
+  
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Style the list items */
+  ul li {
+    cursor: pointer;
+    position: relative;
+    padding: 12px 8px 12px 40px;
+    list-style-type: none;
+    background: #eee;
+    font-size: 18px;
+    transition: 0.2s;
+    
+    /* make the list items unselectable */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  /* Set all odd list items to a different color (zebra-stripes) */
+  ul li:nth-child(odd) {
+    background: #f9f9f9;
+  }
+  
+  /* Darker background-color on hover */
+  ul li:hover {
+    background: #ddd;
+  }
+  
+  /* When clicked on, add a background color and strike out text */
+  ul li.checked {
+    background: #888;
+    color: #fff;
+    text-decoration: line-through;
+  }
+  
+  /* Add a "checked" mark when clicked on */
+  ul li.checked::before {
+    content: '';
+    position: absolute;
+    border-color: #fff;
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    top: 10px;
+    left: 16px;
+    transform: rotate(45deg);
+    height: 15px;
+    width: 7px;
+  }
+  
+  /* Style the close button */
+  .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 12px 16px 12px 16px;
+  }
+  
+  .innerAdd{
+    margin: 5% 5% 5% 5%;
+    
+  }
+
+  .name{
+    background: red;
+    width: 60px;
+  }
+
+.id{
+  background: yellow;
+  width: 50px;
+}
+
+  .innerAdd a{
+    color: blue;
+  }
+
+  .innerAdd a:hover{
+    color: black;
+  }
+  
+  .close:hover {
+    background-color: blue;
+    color: white;
+  }
+  
+  /* Style the header */
+  .header {
+    background-color: white;
+    padding: 30px 40px;
+    margin-top: 5%;
+    color: white;
+    text-align: center;
+  }
+  
+  .header:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  /* Style the input */
+  input {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    width: 75%;
+    padding: 10px;
+    float: left;
+    font-size: 16px;
+  }
+  
+  /* Style the "Add" button */
+  .addBtn {
+    padding: 10px;
+    width: 25%;
+    background: #d9d9d9;
+    color: #555;
+    float: left;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 0;
+    margin-left: 5%;
+  }
+  
+  .addBtn:hover {
+    background-color: #bbb;
+  }
+
+  .input-container {
+    display: -ms-flexbox; 
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .icon {
+    padding: 10px;
+    background: dodgerblue;
+    color: white;
+    min-width: 50px;
+    text-align: center;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+  }
+  
+  .input-field:focus {
+    border: 2px solid dodgerblue;
+  }
+  
+  /* Set a style for the submit button */
+  .btn {
+    background-color: dodgerblue;
+    color: white;
+    padding: 15px 15px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+  }
+  
+  .btn:hover {
+    opacity: 1;
+  }
+
+  .top{
+    margin: 2%;
+    margin-top: -5%;
+    font-size: 1.5em;
+    float: right;
+    margin-right: 5%; 
+    margin-bottom: 5%;
+}
+
+.top a{
+    text-decoration: none;
+    background-color: white;
+    color: blue;
+    padding: 15% 20%;
+    border-radius: 5px;
+    text-align: center;
+} 
+
+.error {
+  display: none;
+  font-size: 80%;
+  color: #e08989;
+  font-weight: bold;
+  padding-top: 0.25em;
+}
+
+.hide {
+  display: none;
+}
+
+.success {
+  display: none;
+  font-size: large;
+  color: hsl(142, 90%, 51%);
+  font-weight: bold;
+  padding-top: 0.30em;
+  margin-left: 5%;
+}
+
+h4{
+  color: blue;
+  text-align: center;
+  font-size: 100%;
+}
+
+.la-top{
+  margin: 2%;
+  margin-top: 0%;
+  font-size: 1.5em;
+  float: right;
+  margin-bottom: 30%;
+}
+
+.la-top a{
+  text-decoration: none;
+  background-color: blue;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 5px;
+  text-align: center;
+} 
+
+.button-push {
+  margin-left: 13%;
+  margin-top: 2%;
+  padding-bottom: 2%;
+}
+
+.newbie{
+  width: 20%;
+  margin: auto;
+  margin-left: 8%;
+  height: 40px;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background-color: rgb(221, 223, 222);
+  color: black;
+}
+
+.create_epic {
+  width: 20%;
+  margin: auto;
+  padding-right: 8%;
+  height: 40px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+#la-la-create input {
+  display: block;
+  width: 50%;
+  border-radius: 4px;
+  height: 40px;
+  padding: 7px;
+  margin-top: 9px;
+  margin-bottom: 4px;
+  margin-left: 20%;
+  border: none;
+  background-color: rgb(238, 239, 248);
+}
+
+.newbie:hover{
+  background-color: blue;
+}
+
+.epicmail a{
+  margin-left: 5%;
+  margin-right: 5%;
+  text-decoration: none;
+  font-size: 80%;
+}
+
+.error {
+  display: none;
+  font-size: 80%;
+  color: #e08989;
+  font-weight: bold;
+  padding-top: 0.25em;
+  padding-left: 20%;
+}
+
+.epicmail {
+  margin-top: 0px;
+  margin-left: 220px;
+  font-size: 28px;
+  border-radius: 5px;
+  width: 80%;
+  color: white;
+  margin-bottom: 5%;
+}
+
+#compose_message, #my_messages{
+  text-align: center;
+  font-size: 30px;
+}
+
+
+.create_epic{
+  margin-left: 40.9%;
+}
+
+#epic{
+  padding-bottom: 2%;
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)} 
+  to {-webkit-transform: scale(1)}
+}
+  
+@keyframes animatezoom {
+  from {transform: scale(0)} 
+  to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+     display: block;
+     float: none;
+  }
+  .cancelbtn {
+     width: 100%;
+  }
+
+  .la-top a{
+    background-color: blue;
+    color: white;
+    padding: 5% 5% 5% 5%;
+    border-radius: 5px;
+    text-align: center;
+  } 
+
+  .la-top{
+    font-size: .8em;
+    float: right;
+    margin-bottom: 30%;
+  }
+
+  .newbie, .create_epic {
+    width: 20%;
+    margin: auto;
+    margin-left: 8%;
+    height: 10px;
+    border: none;
+    margin-bottom: 4px;
+}
+
+#la-la-create h4{
+    padding-left: 18%;
+}
+.epicmail {
+    margin-top: 4px;
+    margin-left: 8%;
+    font-size: 8;
+    width: 20%;
+}
+
+
+h3{
+  font-size: 50%;
+}
+
+button{
+    font-size: 60%;
+    text-align: center;
+}
+
+header h1{
+  font-size: 50%;
+  padding-left: 20%;
+
+} 
+
+}

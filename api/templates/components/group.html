@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../static/css/main.css" />
+    <script src="../static/JS/epic.js"></script>
+    </head>
+    <body>
+        <header>
+            <h1>EpicMail</h1>
+        </header>
+        <div class="top">
+            <a href="../index.html" onclick="logout();">Logout</a><br><br>
+            <a href="user_dashboard.html">Users</a>
+
+          </div> 
+          <img src="../static/images/loading.svg" id="submit_progress" class="hide">  
+          <div class="innerAdd">
+        <div id="myDIV" class="header">
+          <span class="success" id="success_msg"></span>
+          <h2 style="margin:5px">Create Group</h2>
+          <input type="text" id="myInput" placeholder="GroupName"><br>
+          <span onclick="createGroup()" class="addBtn">Add</span>
+          <span onclick="getGroups()" class="addBtn">All</span>
+          <span class="error" id="group_name-error"></span>
+        </div>
+        
+        <ul id="myUL"></ul>
+        <button><a href="Admin.html"><h2 class="ma-ma-mia">Add Member(s)</h2></a></button>
+
+      </div>
+    </body>
+    <script src="../static/JS/create_group.js"></script>
+    <script src="../static/JS/get_groups.js"></script>
+</html>
