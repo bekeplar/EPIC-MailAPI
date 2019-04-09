@@ -34,7 +34,7 @@ GET|api/v2/messages|Get all received emails
 GET|api/v2/messages/<message_id>|User get a specific email
 DELETE|api/v2/messages/<message_id>|User delete a specific inbox email
 GET|api/v2/messages/sent|User get all his/her sent emails
-GET|api/v2/messages/unread|User send email to an indiv2dual
+GET|api/v2/messages/unread|User send email to an individual
 POST|api/v2/groups|create a new user group
 GET|api/v2/groups|Fetch all groups
 DELETE|api/v2/groups/<group_id>|User delete a specific he owns

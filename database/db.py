@@ -280,10 +280,10 @@ class DatabaseConnection:
         user_in_db = self.cursor_database.fetchone()
         return user_in_db if True else False
 
-    def get_group(self, grp):
+    def get_group(self, grp_id):
         """Function for checking for an existing group."""
         sql = (
-            f"SELECT group_name FROM groups WHERE group_name='{grp}';"
+            f"SELECT group_id FROM groups WHERE group_id='{grp_id}';"
         )
         self.cursor_database.execute(sql)
         group_in_db = self.cursor_database.fetchone()

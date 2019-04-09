@@ -49,9 +49,9 @@ def destroy_user(user_id, group_id):
 
 @group_bp.route("/groups/<group_id>/messages", methods=["POST"])
 @token_required
-def group_message(group_id):
+def new_group_message(group_id):
     data = request.get_json(force=True)
-    return group_controller.new_group_message(data, group_id)
+    return group_controller.group_message(data, group_id)
 
 
 
