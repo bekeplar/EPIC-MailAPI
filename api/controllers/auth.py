@@ -2,7 +2,7 @@ from flask import jsonify, request
 import json
 from api.utilitiez.auth_token import (
     encode_token)
-from api.utilitiez.validation import validate_new_user
+from api.utilitiez.validation import validate_new_user, validate_new_message
 from database.db import DatabaseConnection
 from api.models.user import User
 
@@ -80,15 +80,15 @@ class UserController():
             user_password = user_credentials["password"]
 
             # submit user details as required
-            user_id = db.is_valid_credentials(user_email, user_password)
-            if user_id:
+            data = db.is_valid_credentials(user_email, user_password)
+            if data:
                 response = (
                     jsonify(
                         {
                             "status": 200,
                             "data": [
                                 {
-                                    "token": encode_token(user_id),
+                                    "token": encode_token(data["id"], data["email"]),
                                     "success": f"{user_email} logged in successfully",
                                 }
                             ],
@@ -113,3 +113,59 @@ class UserController():
                 422,
             )
         return response
+
+    def group_message(self, data, grp_id):
+        if not request.data:
+            return (
+                jsonify(
+                    {
+                        "error": "Please provide details",
+                        "status": 400,
+                    }
+                ),
+                400,
+            )
+        data = request.get_json(force=True)
+
+        group_message_data = {
+            "subject": data.get("subject"),
+            "message": data.get("message"),
+            "sender_status": "sent",
+            "receiver_status": "unread",
+            "group_id": data.get("groupId"),
+        }
+
+        not_valid = validate_new_message(**group_message_data)
+        known_group = db.get_group(data.get("groupId"))
+        response = None
+        if not known_group:
+            response = (
+                jsonify({
+                    "status": 404, 
+                    "error": "Group with such Id does not exist."}
+                ),
+                404,
+            )  
+        elif not_valid:
+            response = not_valid 
+           
+        else:
+            group_message_data["user_id"] = get_current_identity()["email"]
+            new_message = db.create_group_message(**group_message_data)
+
+            response = (
+                jsonify(
+                    {
+                        "status": 201,
+                        "data": [
+                            {
+                                "mail": new_message,
+                                "message": "Sent message successfully",
+                            }
+                        ],
+                    }
+                ),
+                201,
+            )
+        return response
+   

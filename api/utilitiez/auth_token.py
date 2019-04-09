@@ -14,10 +14,11 @@ from api.utilitiez.responses import (
 secret_key = environ.get("SECRET_KEY", "let-me-add-mine")
 
 
-def encode_token(user_id, is_Admin=False):
+def encode_token(user_id, email, is_Admin=False):
     payload = {
         "userid": user_id,
         "isAdmin": is_Admin,
+        "email": email,
         "iat": datetime.datetime.utcnow(),
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=3),
     }
@@ -67,6 +68,9 @@ def token_required(func):
 
 
 def get_current_identity():
-    return decode_token(extract_token_from_header())["userid"]
+    data = {}
+    data['id'] = decode_token(extract_token_from_header())["userid"]
+    data['email']= decode_token(extract_token_from_header())["email"]
+    return data
 
 

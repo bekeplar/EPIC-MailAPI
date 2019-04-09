@@ -3,6 +3,7 @@ from api.views.user import users_bp
 from instance.config import app_config
 from api.views.message import messages_bp
 from api.views.group import group_bp
+from flask_cors import CORS
 
 
 def create_app(config_name):
@@ -14,6 +15,7 @@ def create_app(config_name):
     app.register_blueprint(users_bp)
     app.register_blueprint(messages_bp)
     app.register_blueprint(group_bp)
+    CORS(app)
 
     @app.route("/")
     def _home():

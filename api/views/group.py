@@ -1,11 +1,13 @@
 from flask import Blueprint, request
 from api.controllers.group import GroupController
+from api.controllers.auth import UserController
 from api.utilitiez.auth_token import token_required
 
 group_bp = Blueprint("group", __name__, url_prefix="/api/v2")
 
 
 group_controller = GroupController()
+user_controller = UserController()
 
 
 @group_bp.route("/groups", methods=["POST"])
@@ -49,9 +51,9 @@ def destroy_user(user_id, group_id):
 
 @group_bp.route("/groups/<group_id>/messages", methods=["POST"])
 @token_required
-def group_message(group_id):
+def new_group_message(group_id):
     data = request.get_json(force=True)
-    return group_controller.new_group_message(data, group_id)
+    return user_controller.group_message(data, group_id)
 
 
 

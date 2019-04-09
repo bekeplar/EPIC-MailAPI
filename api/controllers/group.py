@@ -38,19 +38,16 @@ class GroupController():
         elif not db.check_duplicate_group(
                 group_data["group_name"],
         ):
+            group_data["user_id"] = get_current_identity()["email"]
             created_group = db.insert_new_group(**group_data)
 
             response = (
                 jsonify(
                     {
                         "status": 201,
-                        "data": [
-                            {
-                                "group": created_group,
-                                "message": "Group created successfully",
+                        "data": created_group,
+                        "message": "Group created successfully",
                             }
-                        ],
-                    }
                 ),
                 201,
             )
@@ -64,7 +61,6 @@ class GroupController():
             )
 
         return response
-
 
     def delete_one_group(self, group_id):
         """ 
@@ -100,24 +96,20 @@ class GroupController():
 
         return response
 
-
     def fetch_groups(self):
         """ 
         Logic for getting all groups.
         """
-        results = db.get_all_groups()
+        data = get_current_identity()
+        results = db.get_all_groups(data["email"])
         response = None
         if results:
             response = (
                 jsonify(
                     {
                         "status": 200,
-                        "data": [
-                            {
-                                "groups": results,
-                                "success": "The following are your groups"
-                            }
-                        ],
+                        "data":  results,
+                        "success": "The following are your groups"
                     }
                 ),
                 200,
@@ -132,10 +124,10 @@ class GroupController():
             )
         return response
 
-
     def edit_group_name(self, group_id, data):
         """Function for changing the name of a group"""
         group_name = request.get_json(force=True).get("group_name")
+        user_id = get_current_identity()
         identity = db.get_group_record(group_id)
         response = None
         
@@ -150,7 +142,7 @@ class GroupController():
                 404,
             )
         else:
-            results = db.update_group_name(group_id, group_name)
+            results = db.update_group_name(group_id, group_name, user_id["email"])
             is_admin = True
             response = (
                 jsonify(
@@ -168,7 +160,6 @@ class GroupController():
                 200,
             )
         return response
-    
 
     def add_member(self, data):
         if not request.data:
@@ -214,7 +205,6 @@ class GroupController():
 
         return response
 
-
     def remove_member(self, user_id, group_id):
         """ 
         Logic for deleting a group member.
@@ -248,68 +238,4 @@ class GroupController():
             )
         return response
 
-
-    def new_group_message(self, data, grp_id):
-        if not request.data:
-            return (
-                jsonify(
-                    {
-                        "error": "Please provide some data",
-                        "status": 400,
-                    }
-                ),
-                400,
-            )
-        data = request.get_json(force=True)
-        new_message_data = {
-            "subject": data.get("subject"),
-            "message": data.get("message"),
-            "parent_message_id": data.get("ParentMessageID"),
-            "sender_status": "sent",
-            "reciever_status": "unread",
-            "group_id": data.get("groupId"),
-        }
-
-        not_valid = validate_new_message(**new_message_data)
-        group_exist = db.get_group(data.get("groupId"))
-        known_member = db.get_group_member(data.get("groupId"))
-        response = None
-        if not group_exist:
-            response = (
-                jsonify(
-                    {"status": 404, "error": "Group does not exist."}
-                ),
-                404,
-            )  
-
-        if not known_member:
-            response = (
-                jsonify({
-                    "status": 404, 
-                    "error": "No member with such id exists."}
-                ),
-                404,
-            )  
-        
-        if not_valid:
-            response = not_valid
-
-        else:
-            new_message_data["user_id"] = get_current_identity()
-            group_message = db.create_group_message(**new_message_data)
-            response = (
-                jsonify(
-                    {
-                        "status": 201,
-                        "data": [
-                            {
-                                "mail": group_message,
-                                "message": "Sent message successfully",
-                            }
-                        ],
-                    }
-                ),
-                201,
-            )
-        return response
-
+    

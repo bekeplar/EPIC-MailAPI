@@ -1,3 +1,4 @@
+"""Parent file for all testcases"""
 import unittest
 import json
 from api.app import create_app
@@ -10,7 +11,7 @@ from api.models.message import Message
 
 
 class BaseTest(unittest.TestCase):
-
+    
     def setUp(self):
         """initializing method for a unit test"""
         self.app = create_app("Testing")
@@ -33,14 +34,12 @@ class BaseTest(unittest.TestCase):
         self.message_data = {
             "subject": "My Andela Application",
             "message": "Joseph",
-            "ParentMessageID": "121",
-            "receiver": "1"
+            "reciever": "bekeplar@gmail.com"
         }
 
         self.group_message_data = {
             "subject": "My Andela Application",
-            "message": "Joseph",
-            "ParentMessageID": "121",
+            "message": "Joseph the baddy",
             "groupId": "1"
         }
 
@@ -54,7 +53,8 @@ class BaseTest(unittest.TestCase):
         }
 
         self.user_id = 1
-        self.token = encode_token(self.user_id)
+        self.user_email = 'bekeplar@gmail.com'
+        self.token = encode_token(self.user_id, self.user_email)
         self.data = {}
         self.member = 2
 

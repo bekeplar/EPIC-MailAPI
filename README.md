@@ -23,7 +23,7 @@ As EPIC Andelans who work towards advancing human potential and giv2ng back to t
 - Integrate Twilio and deliver messages v2a SMS.
 - Users can upload a profile  photo.
 
-## Endpoints
+## Endpoints on Postman and Heroku
 
 HTTP Method|Endpoint|Functionality
 -----------|--------|-------------
@@ -34,7 +34,7 @@ GET|api/v2/messages|Get all received emails
 GET|api/v2/messages/<message_id>|User get a specific email
 DELETE|api/v2/messages/<message_id>|User delete a specific inbox email
 GET|api/v2/messages/sent|User get all his/her sent emails
-GET|api/v2/messages/unread|User send email to an indiv2dual
+GET|api/v2/messages/unread|User send email to an individual
 POST|api/v2/groups|create a new user group
 GET|api/v2/groups|Fetch all groups
 DELETE|api/v2/groups/<group_id>|User delete a specific he owns
@@ -44,10 +44,10 @@ DELETE|api/v2/groups/<group_id>/users/<user_id>|Admin remove a member from a gro
 
 ## Requirements
 
-- Python
-- Flask
-- v2rtualenv
-- postgresql
+- [Python](https://www.python.org/)
+- [Flask](http://flask.pocoo.org/)
+- virtualenv
+- [postgresql](https://www.postgresql.org/)
 - Postman
 
 ## Getting started
@@ -97,8 +97,7 @@ Message = [
     {
         "subject": "subject",
         "message": "message",
-        "receiver": "receiver",
-        "ParentMessageID": "ParentMessageID"
+        "reciever": "reciever",
     }
 ]
 
@@ -114,8 +113,27 @@ user = [
 
 ```
 
-## Hosting link
-[heroku](https://kepicmail.herokuapp.com/)
+## Hosting and source code links
+
+### User stories on Pivotal tracker
+
+:link:  [Link to user stories](https://www.pivotaltracker.com/n/projects/2318783)
+
+### UI Templates
+
+[Live project on gh-pages](https://bekeplar.github.io/EPIC-Mail/UI/)
+
+[Link to Source code](https://github.com/bekeplar/EPIC-Mail)
+
+
+### API V2 - PostgreSQL database
+
+[Link to Deployment on Heroku API V2](https://kepicmail.herokuapp.com/)
+
+
+[Link API V2 Source code](https://github.com/bekeplar/EPIC-MailAPI/tree/develop)
+
+[Link API V2 Documentation](https://app.swaggerhub.com/apis-docs/bekeplar/Epic-MailAPI/1.0.0#/)
 
 ## Authors
 

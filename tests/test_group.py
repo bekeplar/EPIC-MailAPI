@@ -191,17 +191,6 @@ class MessageTestCase(BaseTest):
         self.assertEqual(response_data['status'], 404)
         self.assertIsInstance(response_data, dict)
 
-    def test_create_message(self):
-        self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
-        res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
-        self.assertEqual(res1.status_code, 200)
-        res = self.client.post('/api/v2/groups/1/messages', content_type="application/json",
-            headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(self.group_message_data))
-        response_data = json.loads(res.data.decode())
-        self.assertEqual(res.status_code, 201)
-        self.assertEqual(response_data['status'], 201)
-        self.assertIsInstance(response_data, dict)
-
 
     def test_create_message_without_data(self):
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
@@ -214,11 +203,11 @@ class MessageTestCase(BaseTest):
         self.assertEqual(response_data['status'], 400)
         self.assertIsInstance(response_data, dict)
 
+
     def test_create_message_empty_subject(self):
         data = {
             "subject": "",
-            "message": "Joseph",
-            "ParentMessageID": "121",
+            "message": "Joseph the baddy",
             "groupId": "1" 
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
@@ -227,15 +216,15 @@ class MessageTestCase(BaseTest):
         res = self.client.post('/api/v2/groups/1/messages', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(data))
         response_data = json.loads(res.data.decode())
-        self.assertEqual(res.status_code, 400)
-        self.assertEqual(response_data['status'], 400)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(response_data['status'], 404)
         self.assertIsInstance(response_data, dict)
+
 
     def test_create_message_empty_message(self):
         data = {
             "subject": "My Andela Application",
             "message": "",
-            "ParentMessageID": "121",
             "groupId": "1"
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
@@ -244,14 +233,14 @@ class MessageTestCase(BaseTest):
         res = self.client.post('/api/v2/groups/1/messages', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(data))
         response_data = json.loads(res.data.decode())
-        self.assertEqual(res.status_code, 400)
-        self.assertEqual(response_data['status'], 400)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(response_data['status'], 404)
         self.assertIsInstance(response_data, dict)
+
 
     def test_create_message_missing_subject_field(self):
         data = {
-            "message": "Joseph",
-            "ParentMessageID": "121",
+            "message": "Joseph the baddy",
             "groupId": "1" 
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
@@ -260,15 +249,15 @@ class MessageTestCase(BaseTest):
         res = self.client.post('/api/v2/groups/1/messages', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(data))
         response_data = json.loads(res.data.decode())
-        self.assertEqual(res.status_code, 400)
-        self.assertEqual(response_data['status'], 400)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(response_data['status'], 404)
         self.assertIsInstance(response_data, dict)
+        
 
     def test_create_message_subject_field_cannot_be_number(self):
         data = {
             "subject": "My Andela Application",
             "message": 3,
-            "ParentMessageID": "121",
             "groupId": "1"
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
@@ -277,17 +266,16 @@ class MessageTestCase(BaseTest):
         res = self.client.post('/api/v2/groups/1/messages', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(data))
         response_data = json.loads(res.data.decode())
-        self.assertEqual(res.status_code, 400)
-        self.assertEqual(response_data['status'], 400)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(response_data['status'], 404)
         self.assertIsInstance(response_data, dict)
 
 
     def test_create_message_subject_field_length(self):
         data = {
-            "subject": "My",
+            "subject": "My nnnnnnn",
             "message": 3,
-            "ParentMessageID": "121",
-            "groupId": "1" 
+            "groupId": 1 
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
         res1 = self.client.post('/api/v2/auth/login', content_type="application/json", data=json.dumps(self.user_login_data))
@@ -295,16 +283,15 @@ class MessageTestCase(BaseTest):
         res = self.client.post('/api/v2/groups/1/messages', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(data))
         response_data = json.loads(res.data.decode())
-        self.assertEqual(res.status_code, 400)
-        self.assertEqual(response_data['status'], 400)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(response_data['status'], 404)
         self.assertIsInstance(response_data, dict)
 
 
     def test_create_message_message_field_cannot_be_number(self):
         data = {
             "subject": 3,
-            "message": "Joseph",
-            "ParentMessageID": "121",
+            "message": "Joseph the baddy",
             "groupId": "1" 
         }
         self.client.post('/api/v2/auth/signup', content_type="application/json", data=json.dumps(self.user_data))        
@@ -313,8 +300,8 @@ class MessageTestCase(BaseTest):
         res = self.client.post('/api/v2/groups/1/messages', content_type="application/json",
             headers={'Authorization': 'Bearer ' + self.token}, data=json.dumps(data))
         response_data = json.loads(res.data.decode())
-        self.assertEqual(res.status_code, 400)
-        self.assertEqual(response_data['status'], 400)
+        self.assertEqual(res.status_code, 404)
+        self.assertEqual(response_data['status'], 404)
         self.assertIsInstance(response_data, dict)
 
 

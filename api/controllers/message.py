@@ -26,14 +26,13 @@ class MessagesController():
         new_message_data = {
             "subject": data.get("subject"),
             "message": data.get("message"),
-            "parent_message_id": data.get("ParentMessageID"),
             "sender_status": "sent",
-            "reciever_status": "unread",
-            "receiver_id": data.get("receiver"),
+            "receiver_status": "unread",
+            "reciever": data.get("reciever"),
         }
 
         not_valid = validate_new_message(**new_message_data)
-        known_user = db.get_user(data.get("receiver"))
+        known_user = db.get_user(data.get("reciever"))
         response = None
         if not known_user:
             response = (
@@ -45,10 +44,9 @@ class MessagesController():
             )  
         elif not_valid:
             response = not_valid 
-        elif not db.check_duplicate_message(
-                new_message_data["subject"], new_message_data["subject"],
-        ):
-            new_message_data["user_id"] = get_current_identity()
+           
+        else:
+            new_message_data["user_id"] = get_current_identity()["email"]
             new_message = db.create_message(**new_message_data)
 
             response = (
@@ -65,18 +63,11 @@ class MessagesController():
                 ),
                 201,
             )
-        else:
-            response = (
-                jsonify(
-                    {"status": 409, "error": "Message already sent"}
-                ),
-                409,
-            )
         return response
 
     def get_a_message(self, record_id):
-        user_id = get_current_identity()
-        results = db.get_message_record(record_id, user_id)
+        data = get_current_identity()
+        results = db.get_message_record(record_id, data["email"])
         response = None
         if results and "error" in results:
             response = (
@@ -105,9 +96,9 @@ class MessagesController():
         """ 
         deleting an email from a user's inbox.
         """
-        user_id = get_current_identity()
-        results = db.get_message_record(inbox_mail_id, user_id)
-        delete_inbox = db.delete_inbox_mail(inbox_mail_id, user_id
+        data = get_current_identity()
+        results = db.get_message_record(inbox_mail_id, data["email"])
+        delete_inbox = db.delete_inbox_mail(inbox_mail_id, data["email"]
         )
         response = None
         if results:
@@ -139,8 +130,8 @@ class MessagesController():
         """
         Returns all users sent messages.
         """
-        sender_id = get_current_identity()
-        collection = db.get_sent_messages(sender_id)
+        sender = get_current_identity()
+        collection = db.get_sent_messages(sender["email"])
         response = None
         if collection:
             response = (
@@ -160,7 +151,7 @@ class MessagesController():
 
     def all_received_emails(self):
         receiver_id = get_current_identity()
-        inbox = db.get_all_received_messages(receiver_id)
+        inbox = db.get_all_received_messages(receiver_id["email"])
         response = None
 
         if inbox:
