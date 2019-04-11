@@ -109,12 +109,6 @@ class DatabaseConnection:
         return psycopg2.connect(dbname='d3kjn9qsng0o8m', user='modzzetvvnyftp',
         host='ec2-54-243-241-62.compute-1.amazonaws.com', password='441ed2a901367f231e9e9f17a36d2d4766ef440b57d2e2080aea9a64c7cfca78')
 
-    # def database_connection(self, database_name):
-    #     """Function for connecting to appropriate database"""
-    #     return psycopg2.connect(dbname='postgres', user='postgres',port=5432,
-    #     host='localhost', password='bekeplar')
-
-
     def insert_user(self, **kwargs):
         """User class method for adding new user to the users database"""
         first_name = kwargs["first_name"]
