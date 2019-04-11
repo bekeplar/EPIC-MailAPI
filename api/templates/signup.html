@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EpicMail | Signup</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="../static/css/main.css" />
+    </head>
+  <body>
+      <header>
+          <h1>EpicMail</h1>
+      </header>
+        <form  id="la-fonix" action="/"
+        onsubmit="signUpAccount();return false">
+            <h2>User Signup</h2>
+            <img src="../static/images/loading.svg" id="submit_progress" class="hide">
+
+                <span class="success" id="message"></span>
+            <div class="input-container">
+              <i class="fa fa-user icon"></i>
+              <input class="input-field" type="text" id="firstname"  placeholder="firstname" name="firstname">
+            </div>
+            <i class="error" id="firstname-error"></i>
+            <div class="input-container">
+              <i class="fa fa-user icon"></i>
+              <input class="input-field" type="text" id="lastname"  placeholder="lastname" name="lastname">
+            </div>
+            <span class="error" id="lastname-error"></span>
+            <div class="input-container">
+              <i class="fa fa-envelope icon"></i>
+              <input class="input-field" type="text" id="email" placeholder="Email" name="email">
+            </div>
+            <span class="error" id="email-error"></span>
+            <div class="input-container">
+              <i class="fa fa-key icon"></i>
+              <input class="input-field" type="password" id="password"  placeholder="Password" name="psw">
+            </div>
+            <span class="error" id="password-error"></span>
+            <div class="input-container">
+              <i class="fa fa-key icon"></i>
+              <input class="input-field" type="password" id="confirm_password" required placeholder="Confirm Password" name="psw">
+            </div>
+            <span class="error" id="confirm_pass-error"></span>
+            <div id="button"> <button type="submit" class="btn">Signup</button></div>
+           
+            <span class="sgn">Already have an account?<a href="/">Login</a></span>
+            
+        </form>
+  </body>
+  <script src="../static/JS/signup.js"></script>
+</html>

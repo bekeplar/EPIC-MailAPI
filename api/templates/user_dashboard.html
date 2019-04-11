@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>EpicMail | User Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../static/css/user.css">
+    <script src="../static/JS/epic.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <a href="#" class="logo"><span></span>Epic</span><span>Mail</span></a>
+        <div class="header-right">
+            <a href="/" onclick="logout()">Logout</a>
+        </div>
+    </div>
+    <div class="body">
+        <div class="sidebar">
+            <a href="#" class="tablink" onclick="openPage('compose')" id="defaultOpen">New</a>
+            <a href="#" class="tablink" onclick="openPage('inbox')">Inbox</a>
+            <a href="#" class="tablink" onclick="openPage('sent')">Sent</a>
+            <a href="#" class="tablink" onclick="openPage('draft')">Drafts</a>
+            <a href="group.html">Groups</a>
+
+        </div>
+        <div id="compose" class="epicmail">
+                <img src="../static/images/loading.svg" id="submit_progress" class="hide">
+            <form action="#" onsubmit="createMessage(); return false">
+                <span class="success" id="success_msg"></span>
+                <div id="la-fonic">Create New message</div>
+                <div><input type="text" id="reciever" placeholder="Reciever" required></div>
+                <span class="error" id="receiver-error"></span>
+                <div><input type="text" id="subject" required placeholder="Subject"></div>
+                <span class="error" id="subject-error"></span>
+                <textarea id="message" placeholder="message body"></textarea>
+                <span class="error" id="body-error"></span>
+                <div class="button">
+                    <button type="submit" class="send_button">Save Draft</button>
+                    <button type="submit" class="save_button">Send</button>
+                </div>
+
+            </form>
+        </div>
+        <div id="inbox" class="epicmail">
+            <div id="la-fonix" onclick="deleteMessage();" >My Inbox</div>
+            <div id="getMessages"></div>
+
+        </div>
+        <div id="sent" class="epicmail">
+            <div id="la-fonix">Sent</div>
+            <div id="getSentMessages"></div>
+        </div>
+        <div id="draft" class="epicmail">
+            <div id="la-fonix">Drafts</div>
+            <hr>
+            <div><a href="#" onclick="openPage('la-boni')">Kindly resend me</a></div>
+            <hr>
+            <div class="button">
+                <button type="submit" onclick="deleteMessage();" class="send_button">Delete</button>
+                <button type="submit" class="save_button">Send</button>
+            </div>
+        </div>
+
+        <div id="la-boni" class="epicmail">
+            <input name="" id="myDL" cols="20" rows="5">
+            <div id="details" style="background-color:antiquewhite;"></div>
+            <div class="button">
+                <button type="submit" onclick="deleteMessage();" class="save_button">Delete</button>
+            </div>    
+            <div id="getMessage" ></div>
+        </div>
+        <script>
+            document.getElementById("defaultOpen").click();
+        </script>
+</body>
+<script src="../static/JS/create_message.js"></script>
+<script src="../static/JS/get_messages.js"></script>
+<script src="../static/JS/get_all_sent.js"></script>
+<script src="../static/JS/delete_mail.js"></script>
+<script src="../static/JS/get_one_message.js"></script>
+
+</html>
