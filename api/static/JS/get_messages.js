@@ -1,5 +1,5 @@
 function getMessages() {
-    const url = "https://kepicmail.herokuapp.com/api/v2/messages";
+    const url = "/api/v2/messages";
     var token = localStorage.getItem("token");
     let output = '';
     fetch(url, {

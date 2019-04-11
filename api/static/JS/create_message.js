@@ -57,7 +57,7 @@ Emailmessage.onkeyup = function () {
 function createMessage() {
     const submitProgress = document.getElementById("submit_progress");
     submitProgress.style.display = 'block';
-    const url = "https://kepicmail.herokuapp.com/api/v2/messages";
+    const url = "/api/v2/messages";
     const newMessage = {
         reciever: reciever.value,
         subject: subject.value,

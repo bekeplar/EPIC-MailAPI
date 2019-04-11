@@ -48,7 +48,7 @@ function createGroup() {
     submitProgress.style.display = 'block';
     
     let group_name = document.getElementById("myInput")
-    const url = "https://kepicmail.herokuapp.com/api/v2/groups";
+    const url = "/api/v2/groups";
     const newGroup = {
         group_name: group_name.value,
 

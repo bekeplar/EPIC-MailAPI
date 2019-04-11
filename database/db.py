@@ -104,15 +104,15 @@ class DatabaseConnection:
         except (Exception, psycopg2.Error) as e:
             print(e)
 
-    # def database_connection(self, database_name):
-    #     """Function for connecting to appropriate database"""
-    #     return psycopg2.connect(dbname='dft9f3mv66m6tq', user='uqtgtyukhnwbyw',
-    #     host='ec2-23-21-136-232.compute-1.amazonaws.com', password='d0335d58db299fc68d1214984bfb2002646fdefd7cd7f67ac411bc84f5a9c398')
-
     def database_connection(self, database_name):
         """Function for connecting to appropriate database"""
-        return psycopg2.connect(dbname='postgres', user='postgres',
-        host='localhost', password='bekeplar')
+        return psycopg2.connect(dbname='dft9f3mv66m6tq', user='uqtgtyukhnwbyw',
+        host='ec2-23-21-136-232.compute-1.amazonaws.com', password='d0335d58db299fc68d1214984bfb2002646fdefd7cd7f67ac411bc84f5a9c398')
+
+    # def database_connection(self, database_name):
+    #     """Function for connecting to appropriate database"""
+    #     return psycopg2.connect(dbname='postgres', user='postgres',port=5432,
+    #     host='localhost', password='bekeplar')
 
 
     def insert_user(self, **kwargs):

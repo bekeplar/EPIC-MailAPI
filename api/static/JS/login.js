@@ -39,7 +39,7 @@ function displayError(dataArray) {
 
 function login() {
 
-    const url = "https://kepicmail.herokuapp.com/api/v2/auth/login";
+    const url = "/api/v2/auth/login";
     const userCredentials = {
         email: email.value,
         password: password.value

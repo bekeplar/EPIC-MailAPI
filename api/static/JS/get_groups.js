@@ -1,5 +1,17 @@
+function displayError(dataArray) {
+
+    for (let key in dataArray) {
+
+        if ({}.hasOwnProperty.call(dataArray, key)) {
+            let fieldError = document.getElementById(key + "-error");
+            fieldError.style.display = "block";
+            fieldError.innerHTML = dataArray[key];
+        }
+    }
+}
+
 function getGroups() {
-    const url = "https://kepicmail.herokuapp.com/api/v2/groups";
+    const url = "/api/v2/groups";
     var token = localStorage.getItem("token");
     let output = '';
     fetch(url, {
@@ -16,6 +28,16 @@ function getGroups() {
                 window.setTimeout(function () {
                     window.location.replace("/");
                 }, 5000);
+
+            } else if (data.status === 404) {
+                submitProgress.style.display = 'hide';
+                displayError(data.error);
+                document.getElementById("error").style.display = "block";
+                document.getElementById("error").innerHTML = "You havent created any group yet.";
+                window.setTimeout(function () {
+                    window.location.replace("/group.html");
+                }, 5000);
+
 
 
             } else if (data.status === 200) {

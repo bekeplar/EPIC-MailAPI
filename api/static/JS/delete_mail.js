@@ -1,6 +1,6 @@
 function deleteMessage() {
     let messageId = document.getElementById("myDL").value;
-    const url = "https://kepicmail.herokuapp.com/api/v2/messages/"+messageId
+    const url = "/api/v2/messages/"+messageId
 
     var token = localStorage.getItem("token");
 

@@ -1,5 +1,5 @@
 function getSentMessages() {
-    const url = "https://kepicmail.herokuapp.com/api/v2/messages/sent";
+    const url = "/api/v2/messages/sent";
     var token = localStorage.getItem("token");
     let output = '';
     fetch(url, {
